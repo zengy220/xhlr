@@ -1,0 +1,54 @@
+﻿h1,h6{text-align:center;}
+h1{padding:40px 0 20px 0;}
+h6{color:#999;}
+
+.insidecon{padding:10px 0 20px 0;}
+
+.platebg{position:relative;background:#fff;}
+.title02{margin:0 10px;padding:7px 0 5px 0;height:24px;line-height:24px;}
+	.title02green{border-bottom:2px solid #393;}
+	.title02blue01{border-bottom:2px solid #1a5661;}
+	.title02blue02{border-bottom:2px solid #2756a4;}
+	.title02red{border-bottom:2px solid #d23700;}
+.title02 b{float:left;margin:0 10px;font-size:17px;font-weight:normal;}
+.title02 em{float:left;}
+.title02 .img02{padding-top:8px;}
+.title02 a{float:right;}
+
+.list02{overflow:hidden;}
+.list02 ul{padding:0 10px;margin-bottom:-1px;}
+.list02 li{height:36px;line-height:36px;border-bottom:1px dotted #ccc;}
+.list02 li a{float:left;}
+.list02 li a .btn{padding-right:5px;color:#bababa;}
+.list02 li a:hover .btn{color:#333;}
+.list02 li em{float:right;font-style:normal;color:#999;}
+
+.crumbs{margin:10px;height:27px;border-bottom:1px solid #dcdcdc;font-size:14px;}
+.crumbs span{padding:0 10px;}
+.crumbs .home{padding-left:24px;background:url(../images/img09_1.png) no-repeat 0 0;}
+
+.newslist{margin:-10px 10px 10px 10px;overflow:hidden;position:relative;}
+.newslist dl{float:left;width:100%;overflow:hidden;padding:20px 0;border-bottom:1px dotted #ccc;}
+.newslist dt{float:left;padding-right:10px;}
+.newslist dt img{width:140px;height:120px;}
+.newslist dd b{font-weight:normal;display:block;padding-bottom:10px;font-size:18px;line-height:24px;}
+.newslist dd p{ font-size:14px; line-height:22px;color:#454545;}
+
+.prolist li{float:left;padding:20px;}
+.prolist li a{float:left;width:200px;height:250px;overflow:hidden;}
+.prolist li a .proimg{margin-bottom:10px;width:200px;height:200px;}
+
+.showimg{padding-top:30px;text-align:center;}
+.showimg img{width:400px;height:400px;}
+
+.page{width:100%;height:30px;text-align:center;padding:10px 0;clear:both;}
+.page i{padding:0 3px;vertical-align:middle;}
+.page a{padding:5px 10px 3px 10px;border:1px solid #ddd;}
+.page .cur{background:#090;color:#fff;border:1px solid #090;}
+.page a:hover{color:#090;}
+
+.show{margin:20px;font-size:15px;line-height:24px;}
+.show p{padding:20px 0 0 0;text-indent:2em;}
+
+.updown{padding:20px;}
+.updown p{padding-top:10px;}

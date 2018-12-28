@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>湖南省中药材综合信息服务平台后台管理系统</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+    <link rel="stylesheet" href="/Public/css/matrix-style.css" />
+    <link rel="stylesheet" href="/Public/css/matrix-media.css" />
+    <link rel="stylesheet" href="/Public/css/uniform.css" />
+    <link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+    <style type="text/css">
+        .table th,.table td {text-align:left}
+    </style>
+    <script type="text/javascript" src="/Public/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="/Public/ueditor/ueditor.all.min.js"></script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" src="/Public/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">
+        UE.getEditor('col_content',{    //content为要编辑的textarea的id
+            initialFrameWidth: 800,   //初始化宽度
+            initialFrameHeight: 500,   //初始化高度
+        });
+    </script>
+    <script type="text/javascript">
+  function message(){
+    alert("请确定已输入2位数后，再移开!"); }
+</script>
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="javascript:;" class="tip-bottom">商品管理</a> <a href="#" class="current">{$col_title}</a> </div>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span16">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>{$col_title}</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+
+                        <form action="{$col_from_url}" method="post"  onsubmit="return checkv();"class="form-horizontal"   enctype="multipart/form-data">
+                           <!--  <div class="control-group">
+                                <label class="control-label">归属栏目 :</label>
+                                <div class="controls">
+                                    <select name="col_id" id="col_id">
+                                        <option value="0"></option>
+                                        <foreach name="columnlist" item="vo">
+                                            <option value="{$vo.id}" <if condition=" $vo.id eq $content_data.col_id ">selected</if> >{$vo.name}</option>
+                                        </foreach>
+                                    </select>(为空是一级目录)
+                                </div>
+                            </div> -->
+                            <div class="control-group">
+                                <label class="control-label">商品名称 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span11" placeholder="不超过10个字" name="names" maxlength="10" value="{$content_data.names}" style="width:220px;"/>
+                                   <!--  <input name="istop" type="checkbox" value="1"  <if condition=" $content_data.istop eq 1 ">checked</if> />置顶
+                                    <input name="status" type="checkbox" value="0"   <if condition=" $content_data.status eq 0 ">checked</if>  />隐藏 -->
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">商品编号 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span11" placeholder="只能输入2位数字" name="title" id="title"  value="{$content_data.title}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength=2 style="width:220px;"  />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">添加时间 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span2" id="create_time" name="create_time" value="{$time}{$content_data.create_time}" onclick="change_picktime()" placeholder="" />
+
+                                </div>
+                            <div class="control-group">
+                                <label class="control-label">商品简介 :</label>
+                                <div class="controls">
+                                   <textarea name="description" placeholder="不超过28个字" maxlength="28">{$content_data.description}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">商品图片 :</label>
+                                <div class="controls">
+                                    <!-- <if condition=" $content_data.thumb neq '' "><img src="{$content_data.thumb}"></if> -->
+                                    <input type="file" class="span11"  name="thumb" id= "thumb" onchange="checkfile(1,'thumb')" style="width:220px;"/>（选填，建议尺寸：280*280px，1M以内的jpg格式）
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">配料 :</label>
+                                <div class="controls">
+                                   <textarea name="peiliao" placeholder="不超过200个字" maxlength="200">{$content_data.peiliao}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" >贮存方法 :</label>
+                                <div class="controls">
+                                   <textarea name="zhucun" placeholder="不超过200个字" maxlength="200">{$content_data.zhucun}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" >食用方法 :</label>
+                                <div class="controls">
+                                   <textarea name="shiyong" placeholder="不超过200个字" maxlength="200">{$content_data.shiyong}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">生产日期 :</label>
+                                <div class="controls">
+                                   <textarea name="shengchan">{$content_data.shengchan}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">保质期 :</label>
+                                <div class="controls">
+                                   <textarea name="baozhi">{$content_data.baozhi}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">净含量 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span11" placeholder="克" name="jinghan" value="{$content_data.jinghan}" style="width:220px;"/>
+                                </div>
+                            </div>                           
+                            <div class="control-group">
+                                <label class="control-label">生产产地 :</label>
+                                <div class="controls">
+                                   <textarea name="chandi">{$content_data.chandi}</textarea>
+                                </div>
+                            </div>
+                            
+                            
+                            
+
+                            </div>
+                            <!-- <div class="control-group"> -->
+                            
+                            <!-- <div class="control-group">
+                                <label class="control-label">简述 :</label>
+                                <div class="controls">
+                                   <textarea name="description">{$content_data.description}</textarea>
+                                </div>
+                            </div> -->
+                            <div class="control-group">
+                                <label class="control-label">商品详细介绍 :</label>
+                                <div class="controls">
+                                   <textarea name="contents" id="col_content" maxlength = "200">{$content_data.contents}</textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">发布渠道 :</label>
+                                <div class="controls">
+                                   <!--  <label for="check1">官网<input type="checkbox" id="check1" value="0" name="sort2[]"></label><label for="check2">积分商城<input type="checkbox" id="check2" value="1" name="sort2[]"></label>   -->
+                                    
+                                <input type="checkbox" name="sort2[]" value="0" <if condition=" $content_data.sort2 eq 2 or ($content_data.sort2 eq 0 and $content_data.sort2 neq null)"> checked   </if> />官网
+                                <input type="checkbox" name="sort2[]" value="1" <if condition="$content_data.sort2 eq 1  or  $content_data.sort2 eq 2"> checked   </if>  />积分商城        
+                                
+                                  
+                                
+                                            
+
+                                </div>
+                            </div>
+                           <!--  <input type="checkbox" name="hobby[]" value="篮球"/>篮球
+      
+                            <input type="checkbox" name="hobby[]" value="旅游"/>旅游 -->
+
+                            <div class="control-group">
+                                <label class="control-label">需要积分 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span11" placeholder="兑换该商品需要使用的积分" name="jifen" value="{$content_data.jifen}" style="width:220px;"/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">零售价 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span11" placeholder="元" name="price" value="{$content_data.price}" style="width:220px;"/>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label class="control-label">排序 :</label>
+                                <div class="controls">
+                                    <input type="text" class="span11" placeholder="序号越小越靠前" name="sort" value="{$content_data.sort}" style="width:220px;"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                                </div>
+                            </div>
+
+
+                    <!--<div class="control-group">
+                        <label class="control-label" name="manu_or">验证码:</label>
+                        <div class="controls" style="cursor:pointer;">
+                            <input type="text" class="span2" name="verify"/><span><img src='__APP__/User/verify/' onclick="this.src='/User/verify/'+Math.random()" /></span>
+                        </div>
+                    </div>-->
+                    <input type="hidden" name="u" value="{$u}" />
+                    <input type="hidden" name="o" value="{$col}" />
+
+                    <div class="form-actions" style="margin:0 180px;">
+                        <button type="submit" class="btn btn-success">确认</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" onclick="history.back();">返回</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+        </div></div>
+    <!--end-main-container-part-->
+
+    <!--Footer-part-->
+    <include file="Index:foot" />
+    <!--end-Footer-part-->
+
+        <script type='text/javascript'>
+            function checkv(){
+                if(!checkfile(0.1,'thumb')){
+                    return false;
+                }
+                var title=$("#title").val();
+                if(title==''){
+                    alert("商品编号不能为空");
+                    return false;
+                }
+                if(title.length<2){
+                    alert("商品编号必须是两位数");
+                    return false;
+                }
+            }
+        </script>
+
+
+
+        <script src="/Public/js/jquery.min.js"></script>
+    <script src="/Public/js/client.js"></script>
+    <script src="/Public/js/matrix.js"></script>
+    <script src="/Public/js/timepicker/WdatePicker.js"></script>
+    <script src="/Public/js/base.js"></script>
+    <script src="/Public/js/uploadimg.js"></script>
+
+
+</body>
+</html>

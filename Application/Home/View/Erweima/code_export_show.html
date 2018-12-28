@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>湖南省中药材综合信息服务平台后台管理平台</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> 
+    <a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="current">二维码规则</a>
+	
+  </div>
+  
+</div>
+<div class="container-fluid">
+  
+  <div class="widget-box">
+          <div class="widget-title">
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#tab1">顺序导出</a></li>
+              <li class=""><a data-toggle="tab" href="#tab2">重复导出</a></li>
+            </ul>
+          </div>
+          <div class="widget-content tab-content">
+			
+            <div id="tab1" class="tab-pane active">
+			<p style="padding:0 72px;">说明：紧接最后一次记录导出新的二维码段</p>
+            <form action="/Home/Erweima/code_export" method="post" class="form-horizontal">
+			
+            <div class="control-group">
+              <label class="control-label">选择导出码类别 :</label>
+              <div class="controls">
+				<select style="width:195px;" id="Rule_Id" name="Rule_Id" >
+					<option value="0">请选择</option>
+					<foreach name="select_data" item="vo">
+					<option value="{$vo.Rule_Id}">{$vo.Rule_Id} / {$vo.Type_explain}</option>
+					</foreach>
+				</select>
+				
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">本次导出数量 :</label>
+              <div class="controls">
+				<input type="text" class="span11" value="" id="Count" name="Count" style="width:180px;" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="6" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入数量"> 本次导出码段 : <span id="start-code"></span>-<span id="end-code"></span>
+			  
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">导出说明 :</label>
+              <div class="controls">
+                <input type="text" class="span11" name="Derived_explain" id="Derived_explain" maxlength="100" style="width:300px;" placeholder="请输入说明"> 
+				<button type="button" class="btn btn-success" onclick="on_submit();">导出</button>
+              </div>
+            </div>
+
+			</form>
+			
+			</div>
+
+            <div id="tab2" class="tab-pane ">
+              <form action="/Home/Erweima/code_export" method="post" class="Repeated_export">
+			
+            <div class="control-group">
+              <label class="control-label">选择导出码类别 :</label>
+              <div class="controls">
+				<select style="width:195px;" id="Rule_Id2" name="Rule_Id2" >
+					<option value="0">请选择</option>
+					<foreach name="select_data" item="vo">
+					<option value="{$vo.Rule_Id}">{$vo.Rule_Id} / {$vo.Type_explain}</option>
+					</foreach>
+				</select>
+				
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">本次导出码段 :</label>
+              <div class="controls">
+				<input type="text" class="span11" value="" id="Start_num" name="Start_num" style="width:180px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入起始码段"> -
+				<input type="text" class="span11" value="" id="End_num" name="End_num" style="width:180px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入结束码段"> 最高码段限制 : <span id="end-code2"></span>
+			  
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label"></label>
+              <div class="controls">
+              
+				<button type="button" class="btn btn-success" onclick="on_submit2();">重复导出</button>
+              </div>
+            </div>
+
+			</form>
+          </div>
+  </div>
+ 
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>规则列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					<th style="width:30px;">序号</th>
+					<th>导出时间</th>
+					<th>导出码段</th>
+					<th>导出数量</th>
+					<th>导出说明</th>
+					<th>操作</th>
+                </tr>
+              </thead>
+            <tbody>
+
+       <foreach name="code_derived" item="vo" key="ko">
+         <tr>
+          <td>{$ko+1}</td>  
+		  <td>{$vo.Derived_time|date='Y-m-d H:i:s',###}</td>
+		  <td>{$vo.Start_num} - {$vo.End_num}</td>
+		  <td>{$vo.Count}</td>
+		  <td style="text-align:center;width:30%;"><div >{$vo.Derived_explain}</div></td>
+
+		  <td style="text-align:center;">
+				<a href="/Home/Erweima/repeat_export_code/Id/{$vo.Derived_Id}" class="btn btn-success btn-mini" >重复导出</a>&nbsp;&nbsp;
+
+		  </td>
+		  
+         </tr>
+      </foreach>
+
+        </tbody>
+             
+        </table>
+            
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+	
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+
+<script src="/Public/js/jquery.min.js"></script> 
+<script src="/Public/js/bootstrap.min.js"></script> 
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+
+<script>
+$(document).ready(function(){
+	$("#Rule_Id").change(function(){
+		var Rule_Id = $("#Rule_Id option:selected").val();
+		if(Rule_Id != ''){
+			
+			$.ajax({
+				url:"/Home/Erweima/ajax_get_type",
+				data:{Rule_Id:Rule_Id},
+				success:function(e){
+					count = $("#Count").val();
+					sum = e*1+count*1;
+					$("#start-code").empty();
+					$("#start-code").html(e);
+					$("#end-code").html(sum);
+				}
+				
+			});
+			
+		}
+
+	});
+	
+	$("#Count").blur(function(){
+		var	start_code = $("#start-code").html(),
+			count = $("#Count").val()-1,
+			sum = start_code*1+count*1;
+		$("#end-code").empty();
+		$("#end-code").html(sum);
+		
+	});
+
+// 重复导出部分处理
+	$("#Rule_Id2").change(function(){
+		var Rule_Id = $("#Rule_Id2 option:selected").val();
+		if(Rule_Id != ''){
+			$.ajax({
+				url:"/Home/Erweima/ajax_get_type",
+				data:{Rule_Id:Rule_Id},
+				success:function(e){
+					$("#end-code2").html(e-1);
+				}
+				
+			});
+			
+		}
+	});
+
+	$('#Start_num').blur(function(){
+		var start_num = parseInt($('#Start_num').val()),
+			max_num = parseInt($('#end-code2').html());
+
+		if (start_num > max_num) {
+			alert('码段不能超过最高码段限制');
+			$('#Start_num').val('');
+		}
+	});
+
+	$('#End_num').blur(function(){
+		var end_num = parseInt($('#End_num').val()),
+			max_num = parseInt($('#end-code2').html()),
+			start_num = parseInt($('#Start_num').val());
+
+		if (end_num > max_num) {
+			alert('码段不能超过最高码段限制');
+			$('#End_num').val('');
+		}
+
+		if (end_num < start_num) {
+			alert('码段不能小于起始码段');
+			$('#End_num').val('');
+		}
+	});
+
+});
+</script>
+<script>
+	function on_submit(){
+		var Derived_explain = $("#Derived_explain").val(),
+			Rule_Id = $("#Rule_Id").val(),
+			Count   = $("#Count").val();
+			
+		if( Rule_Id == '' || Rule_Id == 0 ){
+			alert("必须选择二维码类别！");return;
+		}else if( Count == '' || Rule_Id == 0){
+			alert("必须填写导出数量！");return;
+		}
+		
+		$(".form-horizontal").submit();
+		
+		
+		
+	}
+
+
+
+</script>
+<script>
+	function on_submit2() {
+		var Rule_Id = $('#Rule_Id2').val(),
+			Start_num = $('#Start_num').val(),
+			End_num = $('#End_num').val();
+
+		if (Rule_Id == '' || Rule_Id == 0) {
+			alert('必须选择二维码类别！');return;
+		}else if( Count == '' || Rule_Id == 0){
+			alert("必须填写导出数量！");return;
+		}
+
+		$(".Repeated_export").submit();
+	}
+</script>
+
+</body>
+</html>

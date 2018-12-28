@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>补货(管理)列表</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="/Public/font-awesome1/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+	<div id="content-header">
+		<div id="breadcrumb"> 
+			<a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="current">退货管理</a>
+		</div>
+	</div>
+<div class="container-fluid">
+  <hr>
+	<form method="post" action=""  name="submitForm" id="submitForm">
+	  <div class="form-group">
+		
+		商家店名:
+			<input type="text" name="name" style="width:120px;" value="{$param.name}"/>&nbsp;&nbsp;&nbsp;
+		商家号: 
+			<input type="text" name="business_id" style="width:120px;" value="{$param.business_id}"/>&nbsp;&nbsp;&nbsp;
+		业务员工号:
+			<input type="text" name="saleman_id" style="width:120px;" value="{$param.saleman_id}" />&nbsp;&nbsp;&nbsp;
+		业务员姓名:
+			<input type="text" name="real_name" style="width:120px;" value="{$param.real_name}" />&nbsp;&nbsp;&nbsp;
+		退货时间:
+			<input type="text" style="width:100px;" name="startTime" value="{$param.startTime}" onclick="change_picktime()" placeholder="起始时间"/> --
+			<input type="text" style="width:100px;" name="endTime" value="{$param.endTime}" onclick="change_picktime()" placeholder="结束时间"/>
+			&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success search" id="" style="width:100px;">查询</button>&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success export" style="width:100px;">导出</button>
+		</div>
+		
+    </form>
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>退货列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					<th style="width:30px;">序号</th>
+					<th>商家店名</th>
+					<th>商家号</th>
+					<th>退货商品</th>
+					<th>业务员工号/姓名</th>
+					<th>退货原因</th>
+					<th>退货时间</th>
+					<th>经理审核理由</th>
+					<th>客服审核理由</th>
+					<th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+
+			  <volist name="result" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.business_id}</td>
+					<td><span onclick="pitch_on1( {$vo.id} )" class="btn btn-success btn-mini" style="width:50px;">查看商品</span></td>
+					<td>{$vo.username} / {$vo.real_name}</td>
+					<td style="width:100px;">{$vo.reason}</td>
+					<td>{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+					
+					<td style="width:100px;"> 
+						<if condition="$vo.manager_status eq 0">
+							审核中...
+						<elseif condition="$vo.manager_status eq 1"/>
+							<font color="red">{$vo.message_2}</font>
+						<else /> 
+							<font color="#51A351">{$vo.message_2}</font>
+						</if> 
+					</td>
+					
+					<td style="width:100px;"> 
+						<if condition="$vo.service_status eq 0 and $vo.manager_status eq 2">
+							审核中...
+						<elseif condition="$vo.service_status eq 1"/>
+							<font color="red">{$vo.message_1}</font>
+						<else /> 
+							<font color="#51A351">{$vo.message_1}</font>
+						</if> 
+					</td>
+			
+					<td>{$vo.button}</td>
+				</tr>
+			  </volist>
+			    <tr>
+					<td colspan="10" align="center" style="text-align:center;"><?php echo $page ?> </td>
+				</tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+<!-- 审核 -->
+<div class="shade shade-f" style="display:none;" onclick="hid();">
+</div>
+<div class="popup popup-s" style="display:none;">
+	
+	<form action="/Home/Keep/quit_goods" method="post">
+	<div class="popup-1">
+	<span class="row-height"><strong>退货审核</strong></span>
+	</div>
+	<div class="popup-2" style="margin:10px 15px 5px 15px">
+		<input type="hidden" value="" id="user_id" name="user_id" />
+		<textarea style="width:460px;height:150px;" placeholder="请输入审核内容!" autofocus maxlength="300" name="message" id="message"></textarea>
+		
+		<button type="button" class="btn btn-success" id="submit_success" onclick="audit_submit(1);" style="width:80px; margin:15px 85px;">通过</button>
+		
+		<button type="button" class="btn btn-warning" id="submit_disagree" onclick="audit_submit(2);" style="width:80px; margin:0px 50px;">拒绝</button>
+		
+	</div>
+	</form>
+	
+</div>
+<!-- 查看商品 曾洋2017年6月7日09:22:37 -->
+<div class="shade1 shade-f" style="display:none;" onclick="hid1();">
+</div>
+<div class="popup1 popup-s" style="display:none;">
+	<div class="popup1-1">
+	<span class="row-height"><strong>查看商品</strong></span>
+	</div>
+	<div class="popup1-2" id="popup1-2" style="margin:10px 15px 5px 15px">
+	</div>
+</div>
+<!-- 查看商品 end -->
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+
+<script src="/Public/js/jquery.min.js"></script> 
+<script>
+//点击审核 弹框
+	function pitch_on(i){
+		var i = i;
+		$("#user_id").val(i);
+		$(".shade").show();
+		$(".popup").show(200);
+	}
+
+	function hid(){
+		$(".shade").hide();
+		$(".popup").hide(200);
+	}
+//点击查看商品 弹框 曾洋2017年6月7日09:22:15
+	function pitch_on1(i){
+		var id = i;
+		$("#popup1-2").empty();
+		$(".shade1").show();
+		$(".popup1").show(200);
+		
+		$.ajax({
+			type: "POST",
+			url: "/Home/Keep/ajax_pitch_on1",
+			data: {"name":id},
+			dataType:"json",
+			success: function(data){
+				if(data != null){
+					$.each(data.ext, function(i, item) { 
+						$("#popup1-2").append(
+							<!--  "<div>" + "商品 id "+'&nbsp;&nbsp;'+':'+ item.id + "</div>" +   -->
+							 "<div>" + "商品数量：   "+item.num + "</div>" + 
+							 "<div>" + "商品名称：   "+ item.names + "</div><hr/>" 
+						 ); 
+					});
+				}else{
+					$("#popup1-2").append(
+						"<div style='height:100px;'>" + '暂无商品' +  "</div>" 
+					);
+				}
+			}			
+		});	
+	}
+
+	function hid1(){
+		$(".shade1").hide();
+		$(".popup1").hide(200);
+	}
+	
+// 点击查看商品end
+	function audit_submit(i){
+		var i = i;
+		var m = $("#message").val(),k = $("#user_id").val();
+
+		if(m == ''){
+			alert("请输入审核内容！");
+			return false;
+		}else{
+		
+			$.ajax({
+				url:"/Home/Keep/quit_goods",
+				data:{ data:i, k:k , area:m },
+				success:function(e){
+					if(e == 101){
+						alert("已审核通过！");
+						window.location.reload();
+					}else if(e == 102){
+						alert("已审核拒绝！");
+						window.location.reload();
+					}else{
+						alert("权限不足！");
+					}
+				}
+				
+			});
+		}
+	
+	
+	}
+	
+	
+</script>
+<script>
+
+$(function(){
+
+	$(".search").bind("click",function(){
+		var url = "/Home/Keep/return_goods";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+	$(".export").bind("click",function(){
+		var url = "/Home/Keep/return_goods_export";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+});
+
+</script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+</body>
+</html>

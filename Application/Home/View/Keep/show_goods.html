@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>铺货(管理)列表</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<link rel="stylesheet" href="/Public/js/css/BeatPicker.min.css"/>
+<script src="/Public/js/js/BeatPicker.min.js"></script>
+<style>
+	.selectForm{margin-left:40px;}
+</style>
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+	<div id="content-header">
+		<div id="breadcrumb"> 
+			<a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="current">铺货管理</a>
+		</div>
+	</div>
+<div class="container-fluid">
+  <hr>
+	<form method="post" action="" name="submitForm" id="submitForm">
+	  <div class="form-group">
+		商家店名:
+			<input type="text" name="name" style="width:120px;" value="{$param.name}"/>&nbsp;&nbsp;&nbsp;
+		商家号: 
+			<input type="text" name="business_id" style="width:120px;" value="{$param.business_id}"/>&nbsp;&nbsp;&nbsp;
+		业务员姓名:
+			<input type="text" name="real_name" style="width:120px;" value="{$param.real_name}" />&nbsp;&nbsp;&nbsp;
+		业务员工号:
+			<input type="text" name="saleman_id" style="width:120px;" value="{$param.saleman_id}" />&nbsp;&nbsp;&nbsp;
+		铺货时间:
+			<input type="text" style="width:100px;" name="startTime" value="{$param.startTime}" onclick="change_picktime()" placeholder="起始时间"/> --
+			<input type="text" style="width:100px;" name="endTime" value="{$param.endTime}" onclick="change_picktime()" placeholder="结束时间"/>
+			&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success search" id="" style="width:100px;">查询</button>&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success export" style="width:100px;">导出</button>
+		</div>
+    </form>
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>铺货列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+				<tr>
+					<th style="width:30px;">序号</th>
+					<th>商家店名</th>
+				    <th>商家号</th>
+					<th>铺货商品</th>
+					<th>业务员姓名/工号</th>
+					<th>铺货时间</th>
+					<th>备注</th>
+                </tr>
+              </thead>
+              <tbody>
+
+			  <volist name="result" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.business_id}</td>
+					<td><span onclick="pitch_on4( {$vo.busi_id} )" class="btn btn-success btn-mini" style="width:50px;">查看商品</span></td>
+					<td>{$vo.real_name} / {$vo.username}</td>
+					<td>{$vo.addtime|date='Y-m-d H:i:s',###}</td>
+					<td>{$vo.remark}</td>
+				</tr>
+			  </volist>
+			    <tr>
+					<td colspan="7" align="center" style="text-align:center;"><?php echo $page ?> </td>
+				</tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+
+<!-- 查看商品 曾洋2017年6月7日09:22:37 -->
+<div class="shade4 shade-f" style="display:none;" onclick="hid4();">
+</div>
+<div class="popup4 popup-s" style="display:none;">
+	<div class="popup4-1">
+	<span class="row-height"><strong>查看商品</strong></span>
+	</div>
+	<div class="popup4-2" id="popup4-2" style="margin:10px 15px 5px 15px">
+
+	</div>
+</div>
+<!-- 查看商品 end -->
+<script src="/Public/js/jquery.min.js"></script> 
+<script>
+
+//点击查看商品 弹框 曾洋2017年6月7日09:22:15
+	function pitch_on4(i){
+		var id = i;
+		$("#popup4-2").empty();
+		$(".shade4").show();
+		$(".popup4").show(200);
+		$.ajax({
+			type: "POST",
+			url: "/Home/Keep/ajax_pitch_on4",
+			data: {"name":id},
+			dataType:"json",
+			success: function(data){
+				if(data != ''){
+					$.each(data, function(tmp,tb) {
+						if(tmp=='cash'){
+							$("#popup4-2").append(
+							"<div>" + "现金铺货：" + "</div><hr/>"
+							);
+						}
+						if(tmp=='free'){
+							$("#popup4-2").append(
+							"<div>" + "免费铺货：" + "</div><hr/>"
+							);
+						}
+						if(tmp=='on_credit'){
+							$("#popup4-2").append(
+							"<div>" + "赊账铺货：" + "</div><hr/>"
+							);
+						}
+						
+						$.each(tb,function(i,n){
+							
+							$("#popup4-2").append( 
+								"<div>" + "商品名称：   " + n.names +"&nbsp;&nbsp;&nbsp;"+"商品数量：   " + n.num +  "</div><hr/>" 
+							); 
+						
+						}); 
+					});
+				}else{
+					$("#popup4-2").append( 
+						"<div style='height:100px;'>" + '暂无商品' +  "</div>" 
+					);
+				}
+
+				
+
+				
+			}			
+		});	
+	}
+
+	function hid4(){
+		$(".shade4").hide();
+		$(".popup4").hide(200);
+	}
+	
+</script>
+
+<script>
+
+$(function(){
+
+	$(".search").bind("click",function(){
+		var url = "/Home/Keep/show_goods";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+	$(".export").bind("click",function(){
+		var url = "/Home/Keep/show_goods_export";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+});
+
+</script>
+
+
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+</body>
+</html>

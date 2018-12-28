@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>积分列表</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="/Public/font-awesome1/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> 
+    <a href="" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="tip-bottom">积分列表</a>
+  </div>
+  <!-- <h1>会员积分明细</h1> -->
+</div>
+<div class="container-fluid">
+  <hr>
+  <form method="post" action=""  name="submitForm" id="submitForm">
+	  <div class="form-group">
+		收支类型:
+			<select name="type" class="type" style="width:150px;">
+				<option value="">--请选择--</option>
+				<option value="1" <if condition="$param.type eq 1"> selected </if> >增加</option>
+				<option value="2" <if condition="$param.type eq 2"> selected </if> >扣减</option>
+			</select>&nbsp;&nbsp;&nbsp;
+		变更方式:
+			<select name="change_type" class="change_type" style="width:150px;">
+				<option value="">--请选择--</option>
+				<option value="1" <if condition="$param.change_type eq 1"> selected </if> >他人转赠</option>
+				<option value="2" <if condition="$param.change_type eq 2"> selected </if> >兑换商品</option>
+				<option value="3" <if condition="$param.change_type eq 3"> selected </if> >赠送他人</option>
+				<option value="4" <if condition="$param.change_type eq 4"> selected </if> >扫码获取</option>
+				<option value="5" <if condition="$param.change_type eq 5"> selected </if> >活动获取</option>
+			</select>&nbsp;&nbsp;&nbsp;
+			
+		会员ID: 
+			<input type="text" name="user_id" style="width:120px;" value="{$param.user_id}" placeholder="会员ID"/>&nbsp;&nbsp;&nbsp;
+		商家号:
+			<input type="text" name="business_id" style="width:120px;" value="{$param.business_id}" placeholder="商家号"/>&nbsp;&nbsp;&nbsp;
+		店名:
+			<input type="text" name="name" style="width:120px;" value="{$param.name}" placeholder="店名"/>&nbsp;&nbsp;&nbsp;
+			<br><br>
+		变更时间:
+			<input type="text" style="width:120px;" name="starttime" value="{$starttime}" onclick="change_picktime()" placeholder="开始时间"/> - 
+			<input type="text" style="width:120px;" name="endtime" value="{$endtime}" onclick="change_picktime()" placeholder="结束时间"/>
+			&nbsp;&nbsp;&nbsp;
+		
+		
+		
+		
+		<button type="button" class="btn btn-success search" id="" style="width:100px;">查询</button>&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success export" style="width:100px;">导出</button>
+
+		</div>
+    </form>  
+	<hr>
+  
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>积分列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					  
+					  <th style="width:30px;">序号</th>
+					  <th>会员ID</th>
+					  <th>可用积分</th>
+					  <th>变更方式</th>
+					  <th>收支类型</th>
+					  <th>积分量</th>
+					  <th>商家号</th>
+					  <th>商家名</th>
+					  <th>变更时间</th>
+					  
+                </tr>
+              </thead>
+            <tbody>
+
+       <foreach name="integInfo" item="v" key="k">
+            <tr>
+				  <td style="text-align:center;">{$k+1}</td>   
+				  <td style="text-align:center;">{$v.user_id}</td> 
+				  <td style="text-align:center;">{$v.change_point}</td> 
+				  <td style="text-align:center;">
+					<if condition="$v.change_type eq 1"> 他人转增	 
+					<elseif condition="$v.change_type eq 2"/>兑换商品
+					<elseif condition="$v.change_type eq 3"/>赠送他人
+					<elseif condition="$v.change_type eq 4"/>扫码获取
+					<else/>活动获取
+					</if>
+				  </td>
+				  <td style="text-align:center;"> <if condition="$v.type eq 1">增加<else/>扣减</if></td>	
+				  <td style="text-align:center;">{$v.point}</td> 
+				  <td style="text-align:center;">{$v.business_id}</td>
+				  <td style="text-align:center;">{$v.name}</td>
+				  <td style="text-align:center;">{$v.time|date="Y-m-d H:i:s",###}</td>
+            </tr>
+       </foreach>
+			 <tr>
+				<td colspan="13" align="center" style="text-align:center;">
+					<?php echo $integPage?> 
+				</td>
+			 </tr>
+              </tbody>
+             
+            </table>
+            
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/jquery.min.js"></script> 
+<script>
+
+$(function(){
+
+	$(".search").bind("click",function(){
+		var url = "/Home/Integ/integ_list";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+	$(".export").bind("click",function(){
+		var url = "/Home/Integ/integ_list_export";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+});
+
+</script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+</body>
+</html>

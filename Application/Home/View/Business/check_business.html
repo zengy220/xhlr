@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>商家审核</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/font-awesome1/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<style type="text/css">
+.widget-content th ,.widget-content td{
+text-align:left;
+}
+</style>
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+	<div id="content-header">
+		<div id="breadcrumb"> 
+			<a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="current">商家审核</a>
+		</div>
+	</div>
+<div class="container-fluid">
+  <hr>
+	<form method="post" action="/Home/Business/check_business">
+	  <div class="form-group">
+
+		商家店名:
+			<input type="text" name="name" style="width:120px;" value="{$param.name}"/>
+			&nbsp;&nbsp;&nbsp;
+			
+		联系人: 
+			<input type="text" name="businame" style="width:120px;" value="{$param.businame}"/>&nbsp;&nbsp;&nbsp;
+			
+		业务员工号:
+			<input type="text" name="number" style="width:120px;" value="{$param.number}"/>&nbsp;&nbsp;&nbsp;
+		
+		<!-- 审核状态:
+			<select name="audit_status" style="width:134px;">
+				<option value="0">全部</option>
+				<option value="1" <if condition="$param.audit_status eq 1">selected="selected" </if> >已审核</option>
+				<option value="2" <if condition="$param.audit_status eq 2">selected="selected" </if> >未审核</option>
+				<option value="3" <if condition="$param.audit_status eq 3">selected="selected" </if> >已拒绝</option>
+			</select>&nbsp;&nbsp;&nbsp;&nbsp; -->
+		加盟时间:
+			<input type="text" style="width:100px;" name="startTime" value="{$param.startTime}" onclick="change_picktime()" placeholder="起始时间"/> --
+			<input type="text" style="width:100px;" name="endTime" value="{$param.endTime}" onclick="change_picktime()" placeholder="结束时间"/>
+			&nbsp;&nbsp;&nbsp;
+		<button type="submit" class="btn btn-success" style="width:100px;">查询</button>
+		</div>
+    </form>
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>商家审核</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					<th style="width:30px;">序号</th>
+					<th>店名</th>
+					<th>联系人/电话/地址</th>
+					<th>类型/等级</th>
+					<th>加盟时间</th>
+					<th>业务员工号/姓名</th>
+					<th>备注</th>
+					<th>经理审核理由</th>
+					<th>客服审核理由</th>
+					<th>审核状态</th>
+                </tr>
+              </thead>
+              <tbody>
+
+			  <volist name="result" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.businame} / {$vo.phone} / {$vo.address}</td>
+					<td>{$vo.busi_type} / {$vo.busi_level}</td>
+					<td>{$vo.addtime|date='Y-m-d',###}</td>
+					<td>{$vo.username} / {$vo.real_name}</td>
+					<td>{$vo.reason}</td>
+					
+					<td style="width:100px;"> 
+						<if condition="$vo.manager_status eq 0">
+							审核中...
+						<elseif condition="$vo.manager_status eq 1"/>
+							<font color="red">{$vo.audit_content_2}</font>
+						<else /> 
+							<font color="#51A351">{$vo.audit_content_2}</font>
+						</if> 
+					</td>
+					
+					<td style="width:100px;">
+						<if condition="$vo.service_status eq 0 and $vo.manager_status eq 0">
+							审核中...
+						<elseif condition="$vo.service_status eq 0 and $vo.manager_status eq 2"/>
+							审核中...
+						<elseif condition="$vo.service_status eq 1"/>
+							<font color="red">{$vo.audit_content_1}</font>
+						</if> 
+					</td>
+					
+					<td>{$vo.button}</td>
+				</tr>
+			  </volist>
+				<tr>
+					<td colspan="10" align="center" style="text-align:center;">{$page}</td>
+				</tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+<!-- 点击弹框 -->
+<div class="shade shade-f" style="display:none;" onclick="hid();"></div>
+<div class="popup popup-s" style="display:none;">
+	
+	<div class="popup-1">
+	<span class="row-height"><strong>商家审核</strong></span>
+	</div>
+	<div class="popup-2" style="margin:10px 15px 5px 15px">
+		<input type="hidden" value="" id="user_id" name="user_id" />
+		<textarea style="width:460px;height:150px;" placeholder="请输入审核内容!" autofocus maxlength="300" name="message" id="message"></textarea>
+		
+		<button type="button" class="btn btn-success" id="submit_success" onclick="audit_submit(1);" style="width:80px; margin:15px 85px;">通过</button>
+		
+		<button type="button" class="btn btn-warning" id="submit_disagree" onclick="audit_submit(2);" style="width:80px; margin:0px 50px;">拒绝</button>
+
+		
+	</div>
+	
+</div>
+<!--end-main-container-part -->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/jquery.min.js"></script> 
+<script>
+	function pitch_on(i){
+		var i = i;
+		$("#user_id").val(i);
+		$(".shade").show();
+		$(".popup").show(200);
+	}
+	
+	function hid(){
+		$(".shade").hide();
+		$(".popup").hide(200);
+	}
+	
+	function audit_submit(i){
+		var i = i;
+		var m = $("#message").val(),k = $("#user_id").val();
+		if(m == ''){
+			alert("请输入审核内容！");
+			return false;
+		}else{
+		
+			$.ajax({
+				url:"/Home/Business/check_business_action",
+				data:{ data:i, k:k , area:m },
+				success:function(e){
+					if(e == 101){
+						alert("已审核通过！");
+						window.location.reload();
+					}else if(e == 102){
+						alert("已审核拒绝！");
+						window.location.reload();
+					}else{
+						alert(e);
+					}
+				}
+				
+			});
+		}
+	
+	}
+	
+</script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+</body>
+</html>

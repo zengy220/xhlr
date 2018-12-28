@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>湖南省中药材综合信息服务平台后台管理平台</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<style type="text/css">
+.table th,.table td {text-align:left}
+</style>
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb">
+	<a href="/Home/User" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>首页</a> 
+	<a href="/Home/Erweima/code_rule" class="tip-bottom">二维码规则</a> 
+	<a href="javascript:window.history.go(-1);" class="tip-bottom">中奖设置</a> 
+	<a href="" class="current">修改奖项</a>
+  </div>
+</div>
+<div class="container-fluid">
+  <hr>
+  
+  <div class="row-fluid">
+		<div class="span6">
+		<div class="widget-box">
+			<div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+			  <h5><if condition=" $list.Prize_id eq 1 ">修改积分奖励<elseif condition=" $list.Prize_id eq 2 "/>修改现金奖励<else/>修改实物奖励</if></h5>
+			</div>
+			<div class="widget-content nopadding">
+			  <form method="post" class="form-horizontal">
+				
+				<div class="control-group">
+				  <label class="control-label"><if condition=" $list.Prize_id eq 1 ">积分<elseif condition=" $list.Prize_id eq 2 "/>现金金额<else/>奖品名称</if>：</label>
+				  <div class="controls">
+				  
+					<input type="text" value="{$list.Classify_resource}" id="Classify_resource" name="Classify_resource" style="width:180px;"/>
+				  
+				  </div>
+				</div>
+				
+				<div class="control-group">
+				  <label class="control-label">中奖率：</label>
+				  <div class="controls">
+				  
+					<input type="text" value="{$list.Classify_probability}" id="Classify_probability" name="Classify_probability"  style="width:180px;" maxlength="10" /> %
+				  
+				  </div>
+				</div>
+				
+				<input type="hidden" id="Classify_Id" name="Classify_Id" value="{$list.Classify_Id}" />
+				<input type="hidden" id="Prize_id" name="Prize_id" value="{$list.Prize_id}" />
+				
+				<div class="form-actions" style="margin:0 180px;">
+				  <button type="button" class="btn btn-success" onclick="on_submit();" style="width:90px;">确认</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				  <button type="button" class="btn btn-warning" onclick="history.back();" style="width:90px;margin:0 0 0 63px;">返回</button>
+				</div>
+			  </form>
+			</div>
+		</div>
+		</div>
+		</if>
+		
+		
+	</div>
+  </div>
+
+</div>
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/jquery.min.js"></script>
+
+<script>
+function on_submit(){
+	var Prize_id             = $("#Prize_id").val(),
+		Classify_Id          = $("#Classify_Id").val(),
+		Classify_resource    = $("#Classify_resource").val(),
+		Classify_probability = $("#Classify_probability").val();
+
+		if(Prize_id=='' || Classify_Id == ''){
+			alert("缺少必要参数！");return;
+		
+		}
+		
+		if(Prize_id==1){
+			if(Classify_resource == ''){
+				alert("积分数值必须填写！");
+				return;
+			}
+				
+		}else if(Prize_id==2){
+			if(Classify_resource == ''){
+				alert("金额数值必须填写！");
+				return;
+			}
+				
+		}else if(Prize_id==3){
+			if(Classify_resource == ''){
+				alert("奖品名称必须填写！");
+				return;
+			}
+			
+		}else if(Classify_probability == ''){
+			alert("中奖率必须填写！");
+			return;
+		}
+		
+		$.ajax({
+				url:"/Home/Erweima/edit_code_prize",
+				type:"POST",
+				data:{Prize_id:Prize_id,Classify_Id:Classify_Id, Classify_resource:Classify_resource, Classify_probability:Classify_probability},
+				success:function(e){
+
+					if(e == 901){
+						alert("参数缺失！");
+						return;
+					}else if(e == 902){
+						alert("添加失败！");
+						return;
+					}else if(e == 903){
+						alert("中奖总概率不能超过100%！");
+						return;
+					}else{
+						alert('修改成功！');
+						window.history.back();
+						
+					}
+					
+				}
+				
+		});
+		
+	
+}
+</script>
+
+<script src="/Public/js/client.js"></script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/timepicker/WdatePicker.js"></script> 
+<script src="/Public/js/base.js"></script>
+</body>
+</html>

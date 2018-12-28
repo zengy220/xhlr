@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>签到汇总</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css"/>
+<link rel="stylesheet" href="/Public/font-awesome1/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+	<div id="content-header">
+		<div id="breadcrumb"> 
+			<a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="tip-bottom">签到汇总</a>
+		</div>
+	</div>
+<div class="container-fluid">
+  <hr>
+	<form method="post" action="/Home/Register/register_record_total">
+	  <div class="form-group">
+		业务员工号:
+			<input type="text" name="username" style="width:120px;" value="{$param.username}" />&nbsp;&nbsp;&nbsp;
+		业务员姓名:
+			<input type="text" name="real_name" style="width:120px;" value="{$param.real_name}" />
+			&nbsp;&nbsp;&nbsp;
+		时间:
+			<input type="text" style="width:120px;" name="date" onclick="change_picktime()" placeholder="" value="{$param.date}" />
+			&nbsp;&nbsp;&nbsp;
+		<button type="submit" class="btn btn-success" style="width:100px;">查询</button>
+		</div>
+    </form>
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>记录列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					<th style="width:30px;">序号</th>
+					<th>业务员工号</th>
+					<th>业务员姓名</th>
+					<th>A类商家</th>
+					<th>B类商家</th>
+					<th>C类商家</th>
+					<th>计划内维护</th>
+					<th>计划外维护</th>
+					<th>共维护</th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+			  <volist name="res" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.username}</td>
+					<td>{$vo.real_name}</td>
+					<td><if condition="$vo.business_count_A eq ''">0</if>{$vo.business_count_A}</td>
+					<td><if condition="$vo.business_count_B eq ''">0</if>{$vo.business_count_B}</td>
+					<td><if condition="$vo.business_count eq ''">0</if>{$vo.business_count}</td>			
+					<td><if condition="$vo.sale_count eq ''">0<else/>{$vo.sale_count}</if></td>
+					<td><if condition="$vo.sale_count_01 eq ''">0<else/>{$vo.sale_count_01}</if></td>
+					<td><if condition="$vo.saleman_id_count eq ''">0<else/>{$vo.saleman_id_count}</if></td>
+				</tr>
+			  </volist>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+
+<script src="/Public/js/jquery.min.js"></script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+</body>
+</html>

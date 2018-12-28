@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>湖南省中药材综合信息服务平台后台管理平台</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/font-awesome1/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> 
+    <a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="current">二维码规则</a>
+	
+  </div>
+  
+</div>
+<div class="container-fluid">
+  <hr>
+  
+	<form method="post" action="">
+	  
+		码类别筛选:
+			<select style="width:180px;" id="TypeId" name="TypeId">
+				<option value="0">请选择</option>
+				<volist name="ctype" id="vo">
+					<option value="{$vo.Id}">{$vo.Type_explain}</option>
+				</volist>
+
+			</select>&nbsp;&nbsp;&nbsp;
+			
+		<label style="display:inline"><input name="CodeUnlimited" id="CodeUnlimited" type="checkbox" value="1" />仅显示有效规则</label>
+		
+		 <a href="javascript:;" class="btn btn-success btn" onclick="pitch_on()" style="float:right;">添加规则</a>
+    </form>
+  
+  
+ 
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>规则列表</h5>
+          </div>
+          <div class="widget-content ">
+        <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					<th style="width:30px;">序号</th>
+					<th>二维码类别</th>
+					<th>有效时间段</th>
+					<th>有效码段</th>
+					<th>状态</th>
+					<th>操作</th>
+                </tr>
+              </thead>
+            <tbody>
+
+			<foreach name="data" item="vo" key="ko">
+			 <tr>
+			  <td>{$ko+1}</td>  
+			  <td>{$vo.Type_num}({$vo.Type_explain})</td>
+			  <td>{$vo.StartTime|date="Y.m.d",###} - {$vo.EndTime|date="Y.m.d",###}</td>
+			  <td>{$vo.CodeStart} - {$vo.CodeEnd}</td>
+			  <td style="text-align:center;"><if condition="$vo.RuleStatus eq 1">有效<else/>无效</if></td>
+
+			  <td style="text-align:center;">
+					<a href="/Home/Erweima/code_prize/Id/{$vo.Rule_Id}" class="btn btn-success btn-mini" >中奖设置</a>&nbsp;&nbsp;
+					<a href="/Home/Erweima/edit_code_rule/Id/{$vo.Rule_Id}" class="btn btn-primary btn-mini" > 修改 </a>
+
+			  </td>
+			  
+			 </tr>
+			</foreach>
+
+			</tbody>
+             
+        </table>
+            
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+<div class="shade shade-f" style="display:none;" onclick="hid();"></div>
+<div class="popup popup-s" style="display:none; width:40%;left:25%;">
+	
+<form action="/Home/Erweima/add_code_rule" method="post">
+	<div class="popup-1">
+		<span class="row-height"><strong>添加扫码规则</strong></span>
+	</div>
+	<div class="popup-2" style="margin:10px 15px 5px 25px">
+		
+		<div class="control-group">
+			<span><strong>二维码类别:</strong></span>&nbsp;&nbsp;
+			<select style="width:180px;" id="Type_id" name="Type_id">
+				<option value="0">请选择</option>
+				<volist name="ctype" id="vo">
+					<option value="{$vo.Id}">{$vo.Type_explain}</option>
+				</volist>
+
+			</select>
+		</div>
+		
+		<div class="control-group">
+			<span><strong>有效时段:</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" value="" id="StartTime" name="StartTime" placeholder="起始时间" style="width:150px;" onclick="change_picktime()"/> - <input type="text" value="" id="EndTime" name="EndTime" placeholder="结束时间" style="width:150px;" onclick="change_picktime()"/>
+			<label style="display:inline"><input name="TimeUnlimited" id="TimeUnlimited" type="checkbox" value="1" />不限</label>
+		</div>
+		
+		<div class="control-group">
+			<span><strong>有效码段:</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" value="" id="CodeStart" name="CodeStart"  style="width:150px;" placeholder="例:000001" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="6" onafterpaste="this.value=this.value.replace(/\D/g,'')" /> - <input type="text" value="" id="CodeEnd" name="CodeEnd" style="width:150px;" placeholder="例:100000" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="6" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+			<label style="display:inline"><input name="CodeUnlimited" id="CodeUnlimited" type="checkbox" value="1" />不限</label>
+		</div>
+		
+		<div class="control-group">
+			<span><strong></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<label style="display:inline"><input name="RuleStatus" id="RuleStatus" type="checkbox" value="1" />关闭规则</label>
+			
+		</div>
+
+		<button type="button" class="btn btn-success" id="submit_success" onclick="audit_submit();" style="width:80px; margin:15px 100px;">提交</button>
+			
+		<button type="button" class="btn btn-warning" id="submit_disagree" onclick="hid();" style="width:80px; margin:0px 0px;">取消</button>
+		
+	</div>
+</form>
+	
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+
+<script src="/Public/js/jquery.min.js"></script> 
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+
+<script type="text/javascript">
+	function pitch_on(){
+		$(".shade").show();
+		$(".popup").show(200);
+	}
+	
+	function hid(){
+		$(".shade").hide();
+		$(".popup").hide(200);
+	}
+	
+	function audit_submit(){
+		var Type_id = $("#Type_id").val(),
+			StartTime = $("#StartTime").val(),
+			EndTime	  = $("#EndTime").val(),
+			CodeStart = $("#CodeStart").val(),
+			CodeEnd   = $("#CodeEnd").val(),
+			RuleStatus= $("#RuleStatus:checked").val(),
+			TimeUnlimited = $("#TimeUnlimited:checked").val(),
+			CodeUnlimited = $("#CodeUnlimited:checked").val();
+			
+			
+			if(Type_id == 0){
+			
+				alert("请选择二维码类别！");return;
+				
+			} 
+			if(TimeUnlimited == undefined){
+			
+				if( StartTime=='' || EndTime=='' ){
+					alert("请填写有效时间！");return;
+					
+				}else if( StartTime > EndTime){
+					alert("开始时间不能大于结束时间！");return;
+					
+				}
+				
+			}
+			if(CodeUnlimited == undefined){
+			
+				if( CodeStart=='' || CodeEnd=='' ){
+					alert("请填写有效码段！");return;
+					
+				}else if( CodeStart > CodeEnd){
+					alert("开始码段不能大于结束码段！");return;
+					
+				}else if( CodeStart.length < 6 || CodeEnd.length < 6 ){
+					alert("码段长度不合法！");return;
+					
+				}
+				
+			}
+			
+			
+			$.ajax({
+				url:"/Home/Erweima/add_code_rule",
+				data:{ 
+					Type_id:Type_id, 
+					StartTime:StartTime,
+					EndTime:EndTime,
+					CodeStart:CodeStart,
+					CodeEnd:CodeEnd,
+					TimeUnlimited:TimeUnlimited,
+					CodeUnlimited:CodeUnlimited,
+					RuleStatus:RuleStatus
+					},
+				success:function(e){
+				
+					if(e == 999){
+						alert("添加失败！");
+						return;
+					}else if(e == 998){
+						alert("时间有重叠，请重新选择时间！");
+						return;
+					}else if(e == 997){
+						alert("码段有重叠，请重新选择码段！");
+						return;
+					}else{
+						alert('添加成功！');
+						window.location.reload();
+					}
+					
+				}
+				
+			});
+			
+		
+	
+	
+	}
+</script>
+</body>
+</html>

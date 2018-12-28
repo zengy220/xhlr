@@ -1,0 +1,317 @@
+@charset "utf-8";
+body,h1,h2,h3,h4,h5,h6,dl,dt,dd,ul,ol,li,th,td,p,blockquote,pre,form,fieldset,legend,input,button,textarea,hr,span{
+font-weight: normal;
+margin:0;padding:0;}
+body{font-size:14px;font-family: "Microsoft YaHei" ! important;color:#000000;background:#fff;margin:0 auto;padding:0px;}
+a{text-decoration:none;outline:none;}
+a:active{star:expression(this.onFocus=this.blur());}
+img{border:0px;vertical-align: middle;}
+li{list-style: none;}
+
+
+
+
+.w1200{
+	width: 1200px;
+	margin: auto;
+}
+body{
+	min-width: 1200px;
+}
+
+.top{
+	text-align: right;
+	background: #f7f7f7;
+	height: 65px;
+	line-height: 65px;
+}
+.top .item{
+	display: inline-block;
+	vertical-align: middle;
+	color: #999;
+	font-size: 18px;
+	margin-left: 20px;
+}
+.top .item a{
+	color: #666;
+}
+.top .item .center{
+	display: inline-block;
+	width: 104px;
+	height: 32px;
+	line-height: 32px;
+	border-radius: 3px;
+	border: 2px solid #56ac25;
+	text-align: center;
+	color: #56ac25
+}
+.top .item .dc{
+	margin-left: 20px;
+}
+
+
+
+.head{
+	padding-top: 28px;
+	padding-bottom: 28px;
+}
+
+.head a{
+display: flex;
+align-items: center;
+}
+
+.head a .left{
+width: 84px;
+}
+.head a .right{
+padding-left: 15px;
+}
+.head a .right .title{
+display: block;
+font-size: 28px;
+font-weight: bold;
+color: #52ac28;
+margin-bottom: 16px;
+}
+.head a .right .desc{
+display: block;
+line-height: 33px;
+}
+.head a .right .desc img{
+width: 33px;
+margin-right: 5px;
+display: inline-block;
+vertical-align: middle;
+}
+.head a .right .desc .words{
+font-size: 17px;
+color: #000;
+display: inline-block;
+position: relative;
+top: -2px;
+margin-right:5px;
+vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.nav{
+	zoom: 1;
+	overflow: hidden;
+}
+.nav li{
+	float: left;
+	width: 10%;
+	text-align: center;
+}
+.nav li a{
+	display: block;
+	line-height: 38px;
+	font-size: 16px;
+	color: #666;
+}
+.nav li a:hover{
+background: #52ac28;
+color: #fff
+}
+.nav li a.current{
+background: #52ac28;
+color: #fff
+}
+
+.footer{
+	padding-top: 30px;
+	padding-bottom: 30px;
+	color: #fff;
+	text-align: center;
+	background: #333a4d;
+	line-height: 1.76;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

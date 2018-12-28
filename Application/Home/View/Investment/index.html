@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>招商管理</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+    <link rel="stylesheet" href="/Public/css/matrix-style.css" />
+    <link rel="stylesheet" href="/Public/css/matrix-media.css" />
+    <link rel="stylesheet" href="/Public/css/uniform.css" />
+    <link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+    <style type="text/css">
+        .table th,.table td {text-align:left}
+    </style>
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="javascript:;" class="tip-bottom">招商管理</a> <a href="/{$Think.MODULE_NAME}/Investment/index" class="current">申请记录</a> </div>
+    </div>
+    <div class="container-fluid">
+
+
+
+        <div class="row-fluid">
+            <div class="span11">
+                <hr>
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+                        <h5>申请记录</h5>
+                    </div>
+                    <div class="widget-content ">
+                        <table class="table table-bordered table-striped with-check">
+                            <thead>
+                            <tr>
+                                <th style="width:50px;">申请人</th>
+                                <th>申请区域</th>
+                                <th>手机号码</th>
+                                <th>联系地址</th>
+                                <th>申请理由</th>
+                                <th>经营现状</th>
+                                <th>申请时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="investment" id="va">
+                                <tr>
+                                    <td>{$va.name}</td>
+                                    <td>{$va.area}</td>
+                                    <td>{$va.tel}</td>
+                                    <td>{$va.region}{$va.address}</td>
+                                    <td>{$va.reason}</td>
+                                    <td>{$va.status}</td>
+                                    <td>{$va.createtime}</td>
+                                </tr>
+                            </volist>
+                            </tbody>
+
+                        </table>
+                        <div class="Pagination">
+                                {$show}
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div></div>
+    <!--end-main-container-part-->
+
+    <!--Footer-part-->
+    <include file="Index:foot" />
+    <!--end-Footer-part-->
+
+
+    <script src="/Public/js/jquery.min.js"></script>
+    <script src="/Public/js/client.js"></script>
+    <script src="/Public/js/matrix.js"></script>
+    <script src="/Public/js/timepicker/WdatePicker.js"></script>
+    <script src="/Public/js/base.js"></script>
+
+
+</body>
+</html>

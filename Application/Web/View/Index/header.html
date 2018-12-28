@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+<title>湖南省中药材综合信息服务平台</title>
+<meta name="keywords" content="关键词" />
+<meta name="description" content="描述" />
+<link href="/Public/alliance/css/css.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Public/alliance/js/jquery.min.js"></script>
+<script type="text/javascript" src="/Public/alliance/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="/Public/alliance/js/global.js"></script>
+
+</head>
+<body>
+	
+
+	<div class="head">
+		<div class="w1200">
+			<a href="#">
+				<img src="/Public/alliance/images/pic1.png" alt="" class="left" />
+				<span class="right">
+					<span class="title">
+						湖南省中药材综合信息服务平台
+					</span>
+					<span class="desc">
+						<img src="/Public/alliance/images/pic2.png" alt="" />
+						<span class="words">
+							湖南省中药材产业协会
+						</span>
+						<img src="/Public/alliance/images/pic3.png" alt="" />
+						<span class="words">
+							湖南省中药材产业技术创新战略联盟
+						</span>
+					</span>
+				</span>
+			</a>
+		</div>
+	</div>
+	<div class="nav">
+		<div class="w1200">
+			<ul>
+				<!-- <li>
+					<a href="#" >
+						首页
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						新闻中心
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						商城交易
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						知识库
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						培训
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						专家库
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						物联网
+					</a>
+				</li> -->
+				 <foreach name ="topCol" key="key" item="arr"  >
+         <li class='<if condition="$arr.tpcode eq $ptpcode">current</if> '><a href="{$arr.col_url}/ptpcode/{$arr.tpcode}" class='<if condition="$arr.tpcode eq $ptpcode">current</if>'><span>{$arr.name}</span></a></li>
+      </foreach>		
+
+     <!--    <li class='<if condition="$topCol[0]['tpcode'] eq $ptpcode">current</if> '>
+         	<a href="/web/map/index/ptpcode/LMCY" class='<if condition="$topCol[0]['tpcode'] eq $ptpcode">current</if>'>
+         		<span>{$topCol[0]['name']}</span>
+         	</a>
+        </li>
+
+        <li class='<if condition="$topCol[1]['tpcode'] eq $ptpcode">current</if> '>
+         	<a href="{$topCol[1]['col_url']}/ptpcode/{$topCol[1]['tpcode']}" class='<if condition="$topCol[1]['tpcode'] eq $ptpcode">current</if>'>
+         		<span>{$topCol[1]['name']}</span>
+         	</a>
+        </li>
+			
+		<li class='<if condition="$topCol[2]['tpcode'] eq $ptpcode">current</if> '>
+         	<a href="{$topCol[2]['col_url']}/ptpcode/{$topCol[2]['tpcode']}" class='<if condition="$topCol[2]['tpcode'] eq $ptpcode">current</if>'>
+         		<span>{$topCol[2]['name']}</span>
+         	</a>
+        </li> -->
+
+			</ul>
+		</div>
+	</div>
+	
+
+</body>
+</html>

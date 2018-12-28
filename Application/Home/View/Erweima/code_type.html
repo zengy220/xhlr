@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>二维码类别</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/font-awesome1/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> 
+    
+    <a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="current">二维码类别</a>
+  </div>
+  
+</div>
+<div class="container-fluid">
+  <hr>
+  <a href="javascript:;" class="btn btn-success btn" onclick="pitch_on()">新增类别</a>
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>类别列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					  <th style="width:30px;">序号</th>
+					  <th>类别编号</th>
+					  <th>类别说明</th>
+					  <th>扫码限制</th>
+					  <th>操作</th>
+                </tr>
+              </thead>
+            <tbody>
+
+       <foreach name="data" item="vo" key="ko">
+                <tr>
+          <td>{$ko+1}</td>  
+		  <td>{$vo.Type_num}</td>
+		  <td>{$vo.Type_explain}</td>
+		  <td style="text-align:center;"><if condition="$vo.Type_astrict eq 1">同一用户限扫一次<else/>同一码号限扫一次</if></td>
+
+		  <td style="text-align:center;">
+				<a href="/Home/Erweima/edit_code_type/Id/{$vo.Id}" class="btn btn-danger btn-mini" style="background:#00f;">修改</a>
+
+		  </td>
+          </tr>
+      </foreach>
+
+        </tbody>
+             
+        </table>
+            
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+<div class="shade shade-f" style="display:none;" onclick="hid();"></div>
+<div class="popup popup-s" style="display:none;">
+	
+<form action="/Home/Keep/quit_goods" method="post">
+	<div class="popup-1">
+		<span class="row-height"><strong>添加二维码类别</strong></span>
+	</div>
+	<div class="popup-2" style="margin:10px 15px 5px 25px">
+	
+		<div class="control-group">
+			<span><strong>类别说明:</strong></span>&nbsp;&nbsp;&nbsp;
+			<input type="text" value="" id="Type_explain" name="Type_explain" style="width:250px;" />
+		</div>
+		
+		<div class="control-group">
+			<span><strong>扫码限制:</strong></span>&nbsp;&nbsp;&nbsp;
+			<select style="width:180px;" id="Type_astrict" name="Type_astrict">
+				<option value="0">请选择</option>
+				<option value="1">同一用户限扫一次</option>
+				<option value="2">同一码号限扫一次</option>
+			</select>
+		</div>
+
+		<button type="button" class="btn btn-success" id="submit_success" onclick="audit_submit();" style="width:80px; margin:55px 88px;">提交</button>
+			
+		<button type="button" class="btn btn-warning" id="submit_disagree" onclick="hid();" style="width:80px; margin:0px 10px;">取消</button>
+		
+	</div>
+</form>
+	
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+
+<script src="/Public/js/jquery.min.js"></script> 
+<script src="/Public/js/matrix.js"></script> 
+<script type="text/javascript">
+	function pitch_on(){
+		$(".shade").show();
+		$(".popup").show(200);
+	}
+	
+	function hid(){
+		$(".shade").hide();
+		$(".popup").hide(200);
+	}
+	
+	function audit_submit(){
+		var m = $("#Type_explain").val(),
+			k = $("#Type_astrict").val();
+			
+		if(m == ''){
+			alert("请输入类别说明！");
+			return false;
+		}else if( k == 0 ) {
+			alert("请选择扫码限制！");
+			return false;
+			
+		}else{
+		
+			$.ajax({
+				url:"/Home/Erweima/add_code_type",
+				data:{ Type_explain:m, Type_astrict:k },
+				success:function(e){
+
+					if(e == 901){
+						alert("请输入类别说明！");
+						return;
+					}else if(e == 902){
+						alert("请选择扫码限制！");
+						return;
+					}else if(e == 999){
+						alert("添加失败！");
+						return;
+					}else{
+						alert('添加成功！');
+						window.location.reload();
+					}
+					
+				}
+				
+			});
+			
+		}
+	
+	
+	}
+</script>
+</body>
+</html>

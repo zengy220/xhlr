@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>湖南省中药材综合信息服务平台后台管理</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/font-awesome1/css/font-awesome.css"  />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="/Home/user" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a><a class="current" href="javascript:;">批量更改业务员</a></div>
+</div>
+<div class="container-fluid">
+  <hr>
+  <form method="post" action="/Home/Business/change_saleman">
+	  <div class="form-group">
+	      
+		<span>业务员工号:</span>
+		<input type="text" name="number"  value="{$param.number}" size="24" style="width:120px;" class="form-control"/>
+		&nbsp;&nbsp;&nbsp;
+		
+		<span>商家号:</span>
+		<input type="text" name="business_id"  value="{$param.business_id}" size="24" style="width:120px;" class="form-control"/>
+		&nbsp;&nbsp;&nbsp;
+		
+		<!-- <span>分配状态:</span>
+		<select style="width:150px;"  class="form-control" name="status">
+			<option value="-1" <if condition="$status eq -1">selected='selected'"</if>>请选择</option>
+	        <option value="0" <if condition="$status eq 0">selected='selected'"</if>>未分配</option>
+	   	  	<option value="1" <if condition="$status eq 1">selected='selected'"</if>>已分配</option>
+	     </select>&nbsp;&nbsp;&nbsp;
+	     
+	    <span>坐席:</span>
+		<select style="width:150px;"  class="form-control" name="user_Id">
+			<option value="0">请选择</option>
+				<foreach name="user_info" item="vo">
+	       			<option value="{$vo.user_Id}" <if condition="$vo.user_Id eq $user_Id">selected='selected'"</if>>{$vo.username}|{$vo.real_name}</option>
+	   	  		</foreach>
+	     </select>&nbsp;&nbsp;&nbsp; -->
+				
+		<button type="submit" class="btn btn-success" style="width:80px;">查询</button>
+	  </div>
+  </form>
+  
+  <div class="row-fluid">
+	<div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+            <h5>商家列表</h5>
+            </div>
+          <div class="widget-content ">
+         
+            <table class="table table-bordered table-striped with-check">
+          
+              <thead>
+                <tr>
+                  <th style="width:50px;"><input type="checkbox" id="all"/>全选</th>
+                  <th>商家号</th>
+                  <th>合同编号</th>
+				  <th>店名</th>
+				  <th>联系人</th>
+                  <th>电话</th>
+                  <th>地址</th>
+                  <th>类型</th>
+                  <th>等级</th>
+				  <th>业务员工号/姓名</th>
+				  <th>是否绑定</th>
+
+				  <th>状态</th>
+                </tr>
+              </thead>
+             <form action="/Home/Business/saleman_change" method="post" id="form-i">
+              <tbody>
+			  <volist name="business" id="vo" >
+                <tr>
+                  <td><input type="checkbox" name="busi_id[]" value="{$vo.busi_id}" />{$i}</td>
+				  <td>{$vo.business_id}</td>
+				  <td>{$vo.coop_id}</td>
+				  <td>{$vo.name}</td>
+				  <td>{$vo.businame}</td>
+				  <td>{$vo.phone}</td>
+				  <td ><div style="width:350px;word-wrap:break-word;display:block;">{$vo.address}</div></td>
+				  <td>{$vo.busi_type}</td>
+				  <td>{$vo.busi_level}</td>
+				  <td>{$vo.username}/{$vo.real_name}</td>
+				  <td><if condition="$vo.is_bind eq 1"><a href="javascript:;" style="color:#00f;">已绑定</a><else/>未绑定</if></td>
+				  <td><if condition="$vo.status eq 1">
+						<a href="javascript:void(0)" style="color:#00f;">正常</a>&nbsp;
+				      <else/>
+						<a href="javascript:void(0)">已禁用</a>&nbsp;
+				      </if></td>
+                </tr>
+				</volist>
+				<tr>
+					<!-- <td colspan="13"><a href="javascript:$('#form1').submit();"><span class="btn btn-success btn" style="float:left;">批量指派</span></a></td> -->
+					
+					<td colspan="13"><a href="javascript:onclick=pitch_on();"><span class="btn btn-success btn" style="float:left;">批量指派</span></a></td>
+					
+				</tr>
+              </tbody>
+              
+            </table>
+           
+           
+            <div class="Pagination">{$show}</div>
+          </div>
+        </div>
+		  </div>
+  
+</div></div>
+
+
+<div class="shade shade-f" style="display:none;" onclick="hid();"></div>
+<div class="popup popup-s" style="display:none;">
+	<div class="popup-1"><span class="row-height"><strong>输入业务员工号</strong></span></div>
+	<div class="popup-2">
+		<span><strong>业务员工号:</strong></span>
+		<select style="width:180px;"  class="saleman" name="saleman">
+			<option value>请选择</option>
+			<volist name="saleman" id="vo" >
+				<option value="{$vo.user_Id}/{$vo.company_id}">{$vo.username}/{$vo.real_name}</option>
+			</volist>
+	     </select>&nbsp;&nbsp;&nbsp;
+		 
+		 <button type="button" class="btn btn-success" id="submit_success" style="width:80px;">提交</button>
+		 </form> 
+	</div>
+
+	<div class="mer-error"><span>*请选择要分配的业务员</span></div>
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/excanvas.min.js"></script> 
+<script src="/Public/js/jquery.min.js"></script> 
+<script type="text/javascript">
+	$(function(){
+		if($("#all").attr("checked")){
+			$("input[type='checkbox']").attr("checked","true"); 
+		}else{
+			$("input[type='checkbox']").removeAttr("checked"); 
+		}
+
+		$("#all").click(function(){
+			if($("#all").attr("checked")){
+				$("input[type='checkbox']").attr("checked","true"); 
+			}else{
+				$("input[type='checkbox']").removeAttr("checked"); 
+			}
+		});
+		
+		$("#submit_success").click(function(){
+			var s = $(".saleman").val();
+			if(s == ''){
+				$(".mer-error").css("display","block");
+				return false;
+			}else{
+				$(".mer-error").css("display","none");
+				$("#form-i").submit();	
+			}
+			
+		});
+
+		
+		
+	});
+</script>
+<script>
+	function pitch_on(){
+		var len = $("input[name='busi_id[]']:checked").length;
+		if(len == 0){
+			alert("请先选择商家");
+			return false;
+		}else{
+			$(".shade").show();
+			$(".popup").show(200);
+		}
+	}
+	
+	function hid(){
+		$(".shade").hide();
+		$(".popup").hide(200);
+	}
+	
+
+
+	<!-- function designate(e){ -->
+		<!-- var tel = $("input[name='tel']").val(); -->
+		<!-- var status = $("select[name='status']").val(); -->
+		<!-- var user_Id = $("select[name='user_Id']").val(); -->
+		<!-- var client_name = $("input[name='client_name']").val(); -->
+		<!-- $.ajax({ -->
+			<!-- url: "/Client/ajax_designate", -->
+			<!-- data: {tel:tel, status:status, user_Id:user_Id, client_name:client_name}, -->
+			<!-- context: document.body, -->
+			<!-- async:true, -->
+			<!-- success: function(e){ -->
+				<!-- alert(e); -->
+			<!-- } -->
+		<!-- }); -->
+	<!-- } -->
+
+</script>
+
+
+<script src="/Public/js/matrix.js"></script> 
+</script>
+</body>
+</html>

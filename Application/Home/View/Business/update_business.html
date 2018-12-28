@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>修改商家</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<style type="text/css">
+.span11{
+	width:420px !important;
+}
+</style>
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>首页</a> <a href="/Home/Business/business_list" class="tip-bottom">用户列表</a> <a href="" class="current">修改商家</a> </div>
+</div>
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+    
+     <div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
+       <!--   <h5>修改商家</h5>  -->
+        </div>
+        <div class="widget-content nopadding">
+
+          <form action="/Home/Business/update_busi" method="post" class="form-horizontal" onsubmit="return check()">
+            <div class="control-group">
+              <label class="control-label">合同编号：</label>
+              <div class="controls">
+                <input type="text" class="span11" placeholder="请输入合同编号" maxlength="32" name="coop_id" value="{$businessInfo.coop_id}" id="coop_id"/>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">商家店名：</label>
+              <div class="controls">
+                <input type="text"  class="span11" placeholder="请输入商家店名" maxlength="20" value="{$businessInfo.name} "name="name" id="name"/>
+				&nbsp;&nbsp;<span style="color:red;">*</span>
+              </div>
+            </div>
+           
+            <div class="control-group">
+              <label class="control-label">联系人：</label>
+              <div class="controls">
+                <input type="text"  class="span11" placeholder="请填写联系人姓名" maxlength="32" value="{$businessInfo.businame}" name="businame" id="businame"/>
+				&nbsp;&nbsp;<span style="color:red;">*</span>
+              </div>
+            </div>
+            
+		    <div class="control-group">
+              <label class="control-label">电话：</label>
+              <div class="controls">
+                <input type="text" class="span11" placeholder="请输入电话" maxlength="20" name="phone" value="{$businessInfo.phone}" id="phone"/>
+				&nbsp;&nbsp;<span style="color:red;">*</span>
+              </div>
+            </div>
+      
+			<div class="control-group">
+              <label class="control-label">商家地址：</label>
+              <div class="controls">
+                <input type="text" class="span11"  value="{$businessInfo.address}" maxlength="50" name="address" value="" id="address"/>
+				&nbsp;&nbsp;<span style="color:red;">*</span>
+              </div>
+            </div>
+      
+			<div class="control-group">
+              <label class="control-label">商家类型:</label>
+              <div class="controls">
+				  <select name="busi_type">
+				  <option value="1" <if condition="$businessInfo.busi_type eq 1">selected</if>>门店加盟商</option>
+				  <option value="2" <if condition="$businessInfo.busi_type eq 2">selected</if>>经销商</option>
+				  <option value="3" <if condition="$businessInfo.busi_type eq 3">selected</if>>代理商</option>
+				  <option value="4" <if condition="$businessInfo.busi_type eq 4">selected</if>>商超连锁</option>
+			  </select>
+              </div>
+            </div>
+      
+			<div class="control-group">
+              <label class="control-label">等级 :</label>
+              <div class="controls">
+				<select name="busi_level">
+				  <option value="A" <if condition="$businessInfo.busi_level eq 'A'">selected</if>>A</option>
+				  <option value="B" <if condition="$businessInfo.busi_level eq 'B'">selected</if>>B</option>
+				  <option value="C" <if condition="$businessInfo.busi_level eq 'C'">selected</if>>C</option>
+				</select>
+              </div>
+            </div>
+			<input type="hidden" name="business_id" value="{$businessInfo.business_id}"/>
+			<input type="hidden" name="busi_id" value="{$businessInfo.busi_id}"/>
+
+      <!-- zy业务员工号 -->
+			<div class="control-group">
+              <label class="control-label">业务员工号：</label>
+              <div class="controls">
+               <select name="username"  class="username">
+                  <option value="0">请选择</option>
+					<volist name="username" id="vo">
+				  <option name="username" class="username" value="{$vo.user_Id}" <if condition=" $businessInfo.saleman_id eq $vo.user_Id ">selected</if> >{$vo.username}/{$vo.real_name}</option>
+					</volist>
+				  </select>
+              </div>
+            </div>
+      <!-- zy业务员工号end -->
+      
+			<div class="control-group">
+              <label class="control-label">状态 :</label>
+              <div class="controls" style="line-heght:center;">
+				<input type="radio" name="status" value='1' <if condition="$businessInfo.status eq 1 ">checked</if>/>正常&nbsp;
+                <input type="radio" name="status" value='0' <if condition="$businessInfo.status eq 0 and $businessInfo.status neq null">checked</if>/>禁用  
+              </div>
+            </div>
+            
+            <div class="form-actions" style="margin:0 180px;">
+				<button type="submit" class="btn btn-success">确认</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-success" onclick="history.back();">返回</button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+</div>
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/excanvas.min.js"></script> 
+<script src="/Public/js/jquery.min.js"></script> 
+
+<script type='text/javascript'>
+//产生随机数 
+function GetRandomNum(Min,Max)
+{   
+  var Range = Max - Min;   
+  var Rand = Math.random();   
+  return(Min + Math.round(Rand * Range));   
+}   
+
+//随机业务号的生成
+function generate_number(){
+  
+  var str='cp';
+  var random_number=GetRandomNum(100000,999999);
+  str+=random_number;
+  $("#number").val(str);
+}
+
+$(function(){
+  
+  generate_number();
+  
+});
+  
+    
+function check(){
+  var name=$("#name").val();
+  if(name==''){
+    alert("商家号不能为空");
+    $('#name').focus();
+    return false;
+  }
+  
+  /*var password=$("#password").val();
+  if(password.length<6){
+    alert("密码长度至少为6位");
+    return false;
+    
+  }
+  var real_name=$("#real_name").val();
+  if(real_name==""){
+    alert("请输入真实姓名");
+    return false;
+  }
+  
+  
+  var tel=$("#tel").val();
+  if(tel==""){
+    alert("请输入手机号码");
+    return false;
+  }*/
+  
+  return true;
+} 
+
+</script>  
+<script src="/Public/js/matrix.js"></script> 
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>编辑组织</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>首页</a> <a href="/Home/Company/company_list" class="tip-bottom">组织列表</a> <a href="" class="current">编辑组织</a> </div>
+  
+</div>
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+    
+     <div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>编辑组织</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="/Home/Company/company_update" method="post" class="form-horizontal" onsubmit="return check()">
+
+            <div class="control-group">
+              <label class="control-label">组织名称：</label>
+              <div class="controls">
+                <input type="text" class="span11" style="width:220px;" placeholder="请输入组织名称" name="company_name" value="{$companyInfo.company_name}" id="company_name" />
+              </div>
+            </div>
+            
+			<div class="control-group">
+              <label class="control-label">组织编号：</label>
+              <div class="controls">
+                <input type="text" style="width:220px;" class="span11" placeholder="请输入两位数字"  name="company_num" value="{$companyInfo.company_num}" id="company_num" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " maxlength="2" readonly />
+
+              </div>
+            </div>
+			
+			<div class="control-group">
+              <label class="control-label">状态 :</label>
+              <div class="controls" style="line-heght:center;">
+				<input type="radio" name="company_status" value='1' <if condition="$companyInfo.company_status eq 1">checked</if> />正常&nbsp;
+                <input type="radio" name="company_status" value='0' <if condition="$companyInfo.company_status eq 0">checked</if> />禁用	
+              </div>
+            </div>
+			
+			<input type="hidden" value="{$companyInfo.company_id}" name="company_id"/>
+            <div class="form-actions" style="margin:0 180px;">
+              <button type="submit" class="btn btn-success">确认</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  <button type="button" class="btn btn-success" onclick="history.back();">返回</button>
+            </div>   
+          </form>
+        </div>
+      </div>
+    
+  
+</div></div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/jquery.min.js"></script> 
+
+<script type='text/javascript'>
+//产生随机数 
+function GetRandomNum(Min,Max)
+{   
+	var Range = Max - Min;   
+	var Rand = Math.random();   
+	return(Min + Math.round(Rand * Range));   
+}   
+
+//随机业务号的生成
+function generate_number(){
+	
+	var str='cp';
+	var random_number=GetRandomNum(100000,999999);
+	str+=random_number;
+	$("#number").val(str);
+}
+
+$(function(){
+	
+	generate_number();
+	
+});
+		
+function check(){
+	var name=$("#company_name").val();
+	var company_num=$("#company_num").val();
+	if(name==''){
+		alert("公司名称不能为空");
+		$('#company_name').focus();
+		return false;
+	}
+	if(company_num=='0'){
+		alert("必须选择组织编号！");
+		//$('#company_num').focus();
+		return false;
+	}
+	
+	return true;
+}
+
+</script>
+<script src="/Public/js/matrix.js"></script> 
+</body>
+</html>

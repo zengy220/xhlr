@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>湖南省中药材综合信息服务平台后台管理平台</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<style type="text/css">
+.table th,.table td {text-align:left}
+</style>
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb">
+	<a href="/Home/User" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>首页</a> 
+	<a href="/Home/Erweima/code_rule" class="tip-bottom">二维码规则</a> 
+	<a href="" class="current">修改规则</a>
+  </div>
+</div>
+<div class="container-fluid">
+  <hr>
+  
+  <div class="row-fluid">
+		<div class="span6">
+		<div class="widget-box">
+			<div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+			  <h5>{$param.title}</h5>
+			</div>
+			<div class="widget-content nopadding">
+			  <form action="/Home/Erweima/edit_code_rule" method="post" class="form-horizontal">
+				
+				<div class="control-group control-single">
+				  <label class="control-label" name="manu_url">二维码类别：</label>
+				  <div class="controls" >
+					
+					<select style="width:180px;" id="Type_id" name="Type_id">
+						<option value="0">请选择</option>
+						<volist name="ctype" id="vo">
+							<option value="{$vo.Id}" <if condition=" $vo.Id eq $data.Type_id ">selected </if> >{$vo.Id}/{$vo.Type_explain}</option>
+						</volist>
+
+					</select>
+					
+				  </div>
+				</div>
+				
+				<div class="control-group">
+				  <label class="control-label">有效时段：</label>
+				  <div class="controls">
+				  
+					<input type="text" value="{$data.StartTime}" id="StartTime" name="StartTime" placeholder="起始时间" style="width:165px;" onclick="change_picktime()"/> - <input type="text" value="{$data.EndTime}" id="EndTime" name="EndTime" placeholder="结束时间" style="width:165px;" onclick="change_picktime()"/>
+					<label style="display:inline"><input name="TimeUnlimited" id="TimeUnlimited" type="checkbox" value="1" <if condition=" $data.StartTime eq '' "> checked </if> />不限</label>
+				  
+				  </div>
+				</div>
+				
+				<div class="control-group">
+				  <label class="control-label">有效码段：</label>
+				  <div class="controls">
+				  
+					<input type="text" value="{$data.CodeStart}" id="CodeStart" name="CodeStart"  style="width:165px;" placeholder="起始码段" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="10" onafterpaste="this.value=this.value.replace(/\D/g,'')" /> - <input type="text" value="{$data.CodeEnd}" id="CodeEnd" name="CodeEnd" style="width:165px;" placeholder="结束码段" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="10" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+
+					<label style="display:inline"><input name="CodeUnlimited" id="CodeUnlimited" type="checkbox" value="1" />不限</label>
+				  
+				  </div>
+				</div>
+				
+				
+				<div class="control-group">
+				  <label class="control-label"></label>
+				  <div class="controls">
+				  
+					<label style="display:inline"><input name="RuleStatus" id="RuleStatus" type="checkbox" value="1" <if condition="$data.RuleStatus eq 0 and $data.RuleStatus neq null "> checked </if> />关闭规则</label>
+				  
+				  </div>
+				</div>
+				
+				
+				<input type="hidden" name="Id" value="{$data.Rule_Id}" />
+				
+				<div class="form-actions" style="margin:0 180px;">
+				  <button type="button" class="btn btn-success" onclick="on_submit();" style="width:90px;">确认</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				  <button type="button" class="btn btn-warning" onclick="history.back();" style="width:90px;margin:0 0 0 63px;">返回</button>
+				</div>
+			  </form>
+			</div>
+		</div>
+		</div>
+		</if>
+		
+		
+	</div>
+  </div>
+
+</div>
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/jquery.min.js"></script>
+
+<script>
+function on_submit(){
+	var Type_id = $("#Type_id").val(),
+		StartTime = $("#StartTime").val(),
+		EndTime	  = $("#EndTime").val(),
+		CodeStart = $("#CodeStart").val(),
+		CodeEnd   = $("#CodeEnd").val(),
+		RuleStatus= $("#RuleStatus:checked").val(),
+		TimeUnlimited = $("#TimeUnlimited:checked").val(),
+		CodeUnlimited = $("#CodeUnlimited:checked").val();
+			
+		if(Type_id == 0){
+		
+			alert("请选择二维码类别！");return;
+				
+		} 
+		if(TimeUnlimited == undefined){
+		
+			if( StartTime=='' || EndTime=='' ){
+				alert("请填写有效时间！");return;
+					
+			}else if( StartTime > EndTime){
+				alert("开始时间不能大于结束时间！");return;
+					
+			}
+		
+		}
+		if(CodeUnlimited == undefined){
+			
+			if( CodeStart=='' || CodeEnd=='' ){
+				alert("请填写有效码段！");return;
+					
+			}else if( Number(CodeStart) > Number(CodeEnd)){
+				alert("开始码段不能大于结束码段！");return;
+					
+			}else if( CodeStart.length < 8 || CodeEnd.length < 8 ){
+				alert("码段长度不合法！");return;
+					
+			}
+		
+		}
+		
+		$(".form-horizontal").submit();
+	
+}
+</script>
+
+<script src="/Public/js/client.js"></script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/timepicker/WdatePicker.js"></script> 
+<script src="/Public/js/base.js"></script>
+</body>
+</html>

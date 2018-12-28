@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>签到记录</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link rel="stylesheet" href="/Public/font-awesome/css/font-awesome.css"/>
+<link rel="stylesheet" href="/Public/font-awesome1/css/font-awesome.css" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+	<div id="content-header">
+		<div id="breadcrumb"> 
+			<a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="" class="tip-bottom">签到记录</a>
+		</div>
+	</div>
+<div class="container-fluid">
+  <hr>
+	<form method="post" action="" name="submitForm" id="submitForm">
+	  <div class="form-group">
+		业务员工号:
+			<input type="text" name="username" style="width:120px;" value="{$param.username}" />&nbsp;&nbsp;&nbsp;
+		商家号: 
+			<input type="text" name="business_id" style="width:120px;" value="{$param.business_id}"/>&nbsp;&nbsp;&nbsp;
+		店名:
+			<input type="text" name="name" style="width:120px;" value="{$param.name}"/>&nbsp;&nbsp;&nbsp;
+		是否当日任务:&nbsp;&nbsp;&nbsp;
+			<select name="is_today" style="width:134px;">
+				<option value="">请选择</option>
+				<option value="1" <if condition="$param.is_today eq 1">selected</if> >是</option>
+				<option value="0" <if condition="$param.is_today eq 0 and $param.is_today neq null">selected</if>>否</option>				
+			</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		时间:
+			<input type="text" style="width:100px;" name="startTime" onclick="change_picktime()" placeholder="起始时间" value="{$param.startTime}" /> --
+			<input type="text" style="width:100px;" name="endTime" onclick="change_picktime()" placeholder="结束时间" value="{$param.endTime}"/>
+			&nbsp;&nbsp;&nbsp;
+			
+		<!-- 业务员姓名:
+			<input type="text" name="real_name" style="width:120px;"/>&nbsp;&nbsp;&nbsp; -->
+
+		
+		<button type="button" class="btn btn-success search" id="" style="width:100px;">查询</button>&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success export" style="width:100px;">导出</button>
+		</div>
+    </form>
+  <div class="row-fluid">
+   
+  <div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+             <h5>记录列表</h5>
+          </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+					<th style="width:30px;">序号</th>
+					<th>业务员工号</th>
+					<th>业务员姓名</th>
+					<th>商家号</th>
+					<th>商家等级</th>
+					<th>店名</th>
+					<th>是否当日任务</th>
+					<th>签到时间</th>
+                </tr>
+              </thead>
+              <tbody>
+
+			  <volist name="data" id="vo">
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo.username}</td>
+					<td>{$vo.real_name}</td>
+					<td>{$vo.business_id}</td>
+					<td>{$vo.busi_level}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.is_today}</td>
+					<td>{$vo.intime|date="Y-m-d H:i:s",###}</td>
+				</tr>
+			  </volist>
+			   <tr>
+				<td colspan="7" align="center" style="text-align:center;">
+					<?php echo $Page?> 
+				</td>
+			   </tr>
+              </tbody>
+			 
+            </table>
+            
+          </div>
+        </div>
+      </div>
+  
+</div></div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+
+<script src="/Public/js/jquery.min.js"></script>
+<script>
+
+$(function(){
+
+	$(".search").bind("click",function(){
+		var url = "/Home/Register/register_record";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+	$(".export").bind("click",function(){
+		var url = "/Home/Register/register_record_export";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+});
+
+</script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+</body>
+</html>

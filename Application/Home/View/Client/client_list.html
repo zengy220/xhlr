@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>后台管理系统</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="/Public/font-awesome1/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<style>
+	ul,li{list-style:none;}
+</style>
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="/staff" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="tip-bottom">会员列表</a></div>
+  <!-- <h1>会员</h1> -->
+</div>
+<div class="container-fluid">
+  <hr>
+  <form method="post" action="" name="submitForm" id="submitForm">
+	  <div class="form-group">
+		会员ID: 
+			<input type="text" name="user_id" style="width:120px;" value="{$param.user_id}" placeholder="会员ID"/>&nbsp;&nbsp;&nbsp;
+		微信昵称:
+			<input type="text" name="nickname" style="width:120px;" value="{$param.nickname}" placeholder="微信昵称"/>&nbsp;&nbsp;&nbsp;
+		渠道来源:
+			<select name="regcome" class="regcome" style="width:150px;">
+				<option value="">--请选择--</option>
+				<option value="1" <if condition="$param.regcome eq 1"> selected </if> >二维码扫描</option>
+				<option value="2" <if condition="$param.regcome eq 2"> selected </if> >关注公众号</option>
+			</select>&nbsp;&nbsp;&nbsp;
+		状态:
+			<select name="status" class="status" style="width:150px;">
+				<option value="">--请选择--</option>
+				<option value="1" <if condition="$param.status eq 1"> selected </if> >正常</option>
+				<option value="0" <if condition="$param.status eq 0 and $param.status neq null"> selected </if> >禁用</option>
+			</select>&nbsp;&nbsp;&nbsp;
+		注册时间:
+			<input type="text" style="width:120px;" name="addtime" value="{$addtime}" onclick="change_picktime()" placeholder="注册时间"/> &nbsp;&nbsp;&nbsp;
+		
+		<button type="button" class="btn btn-success search" id="" style="width:100px;">查询</button>&nbsp;&nbsp;&nbsp;
+		<button type="button" class="btn btn-success export" style="width:100px;">导出</button>
+		</div>
+    </form>
+  
+  
+  <div class="row-fluid">
+   
+	<div class="span11">
+     <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+            <h5>会员列表</h5>
+          </div>
+		  
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+                	
+                 <!-- <th style="width:50px;line-height:center;"><input type="checkbox" id="all"/>全选</th> -->
+                  <th style="width:60px;">序号</th>
+                  <th style="width:60px;">会员ID</th>
+				  <th>微信昵称</th>
+                  <th>注册时间</th>
+                  <th>渠道来源</th>
+                  <th>状态</th>
+                
+                </tr>
+              </thead>
+              <tbody>
+
+			 <foreach name="customInfo" item="vo" key="ko">
+                <tr>
+				
+              <!--    <td style="text-align:center;"><input type="checkbox" name="cs_id[]" value="{$vo.user_id}"/></td> -->
+				  <td style="text-align:center;">{$ko+1}</td>	
+				  <td style="text-align:center;">{$vo.user_id}</td>
+				  <td style="text-align:center;">{$vo.nickname}</td>
+				  <td style="text-align:center;">{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+				  
+                  <td style="text-align:center;">
+				  <if condition="$vo.regcome eq 1">
+						扫描商品
+				  <elseif condition="$vo.regcome eq 2"/>
+						关注公众号
+				  <else/>
+						- 
+				  </if>
+				  </td>
+				
+				  <td style="text-align:center;">
+				  
+					<if condition="$vo.status eq 1">
+						<a href="javascript:void(0)"  class="btn btn-primary btn-mini">正常</a>&nbsp;
+						<a href="javascript:;" onclick="freeze_client({$vo.user_id})" class="btn btn-danger btn-mini">点击禁用 </a>
+					<else/>
+						<a class="btn btn-primary btn-mini" href="javascript:void(0)" style="background:#333;">冻结</a>&nbsp;
+						<a href="javascript:;"  onclick="unfreeze_client({$vo.user_id})" class="btn btn-danger btn-mini">恢复正常</a>
+					</if>
+						
+				  </td>
+				    
+                </tr>
+			  </foreach>
+				<tr>
+				<td colspan="6" align="center" style="text-align:center;">
+					<?php echo $customPage;?>
+				</td>
+				
+				<!--	<td colspan="10"><a href="javascript:"><span class="btn btn-success btn">批量匹配</span></a></td> -->
+				</tr>
+              </tbody>
+              
+            </table>
+           
+          </div>
+        </div>
+		  </div>
+  
+</div></div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+<script src="/Public/js/jquery.min.js"></script> 
+<script type="text/javascript">
+
+	function freeze_client(user_id){
+		if(confirm('确定要冻结该用户?')){
+			window.location.href = "/Home/Client/freeze_client/user_id/"+ user_id;
+		}
+	}
+	
+	function unfreeze_client(user_id){
+		if(confirm('是否解禁该用户?')){
+			window.location.href = "/Home/Client/unfreeze_client/user_id/"+ user_id;
+		}
+	}
+
+</script>
+<script>
+
+$(function(){
+
+	$(".search").bind("click",function(){
+		var url = "/Home/client/client_list";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);  
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+	$(".export").bind("click",function(){
+		var url = "/Home/client/client_list_export";  
+		//更改form的action  
+		$("#submitForm").attr("action", url);
+		//触发submit事件，提交表单   
+		$("#submitForm").submit();  
+	});
+	
+});
+
+</script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/base.js"></script>
+<script src="/Public/js/timepicker/WdatePicker.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>湖南省中药材综合信息服务平台后台管理平台</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+<style type="text/css">
+.table th,.table td {text-align:left}
+</style>
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb">
+	<a href="/Home/User" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>首页</a> 
+	<a href="/Home/Erweima/code_type" class="tip-bottom">二维码类别</a> 
+	<a href="" class="current">修改类别</a> 
+  </div>
+</div>
+<div class="container-fluid">
+  <hr>
+  
+  <div class="row-fluid">
+		<div class="span6">
+		<div class="widget-box">
+			<div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+			  <h5>{$param.title}</h5>
+			</div>
+			<div class="widget-content nopadding">
+			  <form action="/Home/Erweima/edit_code_type" method="post" class="form-horizontal">
+				
+				<div class="control-group">
+				  <label class="control-label">类别编号：</label>
+				  <div class="controls">
+					<input type="text" class="span11" readonly placeholder="扫码限制" name="Type_num" value="{$data.Type_num}" style="width:220px;"/>
+				  </div>
+				</div>
+				
+				<div class="control-group">
+				  <label class="control-label">类别说明：</label>
+				  <div class="controls">
+					<input type="text" class="span11" placeholder="扫码限制" name="Type_explain" value="{$data.Type_explain}" style="width:220px;"/>
+				  </div>
+				</div>
+
+				<div class="control-group control-single">
+				  <label class="control-label" name="manu_url">扫码限制：</label>
+				  <div class="controls" >
+
+					<select style="width:180px;" id="Type_astrict" name="Type_astrict">
+						<option value="0">请选择</option>
+						<option value="1" <if condition=" $data.Type_astrict eq 1 ">selected</if> >同一用户限扫一次</option>
+						<option value="2" <if condition=" $data.Type_astrict eq 2 ">selected</if>>同一码号限扫一次</option>
+					</select>
+				  </div>
+				</div>
+				
+				<input type="hidden" name="Id" value="{$data.Id}" />
+				
+				<div class="form-actions" style="margin:0 180px;">
+				  <button type="submit" class="btn btn-success" style="width:90px;">确认</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				  <button type="button" class="btn btn-warning" onclick="history.back();" style="width:90px;">返回</button>
+				</div>
+			  </form>
+			</div>
+		</div>
+		</div>
+		</if>
+		
+		
+	</div>
+  </div>
+
+</div>
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+<include file="Index:foot" />
+<!--end-Footer-part-->
+
+<script src="/Public/js/jquery.min.js"></script>
+<script src="/Public/js/client.js"></script>
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/timepicker/WdatePicker.js"></script> 
+<script src="/Public/js/base.js"></script>
+</body>
+</html>

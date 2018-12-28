@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>制作二维码</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/Public/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/Public/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/Public/css/fullcalendar.css" />
+<link rel="stylesheet" href="/Public/css/matrix-style.css" />
+<link rel="stylesheet" href="/Public/css/matrix-media.css" />
+<link rel="stylesheet" href="/Public/css/uniform.css" />
+<link href="/Public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Public/css/jquery.gritter.css" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<include file="Index:menu" />
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="javascript:;" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>首页</a> <a href="javascript:;" class="tip-bottom">二维码管理</a> <a href="#" class="current">制作二维码</a> </div>
+  <h1>制作二维码</h1>
+</div>
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+    
+     <div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"><span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>制作二维码</h5>
+        </div>
+		
+        <div class="widget-content nopadding">
+          <form action="/Home/Erweima/mk_more_qrcode" method="post" class="form-horizontal" onsubmit="return check()">
+			
+			<div class="control-group">
+              <label class="control-label">商品类型:</label>
+              <div class="controls">
+				<select name="type_id" id="type_id">
+						<option value="001">湖南省中药材综合信息服务平台十元酱香型槟榔</option>
+						<option value="002">湖南省中药材综合信息服务平台二十元清香型槟榔</option>
+				</select>
+				
+              </div>
+            </div>
+			
+			<div class="control-group">
+              <label class="control-label">输入数量：</label>
+              <div class="controls">
+                <input type="text" class="span11"  placeholder="请输入本次生产的二维码数量" name="total" value="" id="address"/>
+              </div>
+            </div>
+			
+            <div class="form-actions" style="margin:0 180px;">
+              <button type="submit" class="btn btn-success">确认</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  <button type="button" class="btn btn-success" onclick="history.back();">返回</button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    
+  
+</div>
+</div>
+
+<include file="Index:foot" />
+
+
+<script src="/Public/js/excanvas.min.js"></script> 
+<script src="/Public/js/jquery.min.js"></script> 
+
+<script src="/Public/js/jquery.ui.custom.js"></script> 
+<script src="/Public/js/bootstrap.min.js"></script> 
+<script src="/Public/js/jquery.flot.min.js"></script> 
+<script src="/Public/js/jquery.flot.resize.min.js"></script> 
+<script src="/Public/js/jquery.peity.min.js"></script> 
+<script src="/Public/js/fullcalendar.min.js"></script> 
+<script src="/Public/js/matrix.js"></script> 
+<script src="/Public/js/matrix.dashboard.js"></script> 
+<script src="/Public/js/jquery.gritter.min.js"></script> 
+<script src="/Public/js/matrix.interface.js"></script> 
+<script src="/Public/js/matrix.chat.js"></script> 
+<script src="/Public/js/jquery.validate.js"></script> 
+<script src="/Public/js/matrix.form_validation.js"></script> 
+<script src="/Public/js/jquery.wizard.js"></script> 
+<script src="/Public/js/jquery.uniform.js"></script> 
+<script src="/Public/js/select2.min.js"></script> 
+<script src="/Public/js/matrix.popover.js"></script> 
+<script src="/Public/js/jquery.dataTables.min.js"></script> 
+<script src="/Public/js/matrix.tables.js"></script>
+
+
+</body>
+</html>

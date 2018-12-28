@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>湖南省中药材综合信息服务平台</title>
+<link href="/Public/web/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/Public/web/css/style.css" rel="stylesheet" type="text/css" />
+<script  type="text/JavaScript" src="/Public/web/js/jquery-1.11.1.min.js"></script>
+<script  type="text/JavaScript" src="/Public/web/js/common.js"></script>
+</head>
+
+<body>
+
+       <include file="Index:header" />
+
+   <!--banner-->
+   <div class="banner-box rel " id="banner">
+   <ul class="pics">
+       <foreach name="banner" item="vo">
+          <!-- <li style="background:url('{$vo.imgurl}') no-repeat center top;" ><if condition="$vo.url neq ''"><a href="{$vo.url}"></a></if></li> -->
+          <li style="background:url('{$vo.imgurl}') no-repeat center top;" ><if condition="$vo.url neq ''"><a href="{$vo.url}"></a></if></li>
+       </foreach>
+   <!--<li style="background: url(/Public/web/images/banner.jpg) no-repeat center center;display: block;"><a href="" target="_blank"></a></li>
+   <li style="background: url(/Public/web/images/banner2.jpg) no-repeat center center;"><a href="" target="_blank"></a></li>-->
+   </ul>
+   <div class="g-wrap">
+        <ul class="idxs">
+            <foreach name="banner" item="vo">
+                <li></li>
+           </foreach>
+
+        </ul>
+    </div>
+   </div>
+   <!--banner-->
+   
+
+  
+
+       <include file="Index:footer" />
+
+   <script src="/Public/web/js/index.js"></script>
+   <script type="text/javascript" src="/Public/web/js/jquery.SuperSlide2.js"></script>
+   <script>
+   	/* 图片滚动效果 */
+	$(".mr_frbox").slide({
+		titCell: "",
+		mainCell: ".mr_frUl ul",
+		autoPage: true,
+		effect: "leftLoop",
+		autoPlay: true,
+		vis: 3
+	});
+	
+	//导航设置
+	$(".top-menu").find("li").eq("0").addClass("active");
+    $("#banner").find("li").eq(0).css("display","block");
+   </script>
+</body>
+</html>
