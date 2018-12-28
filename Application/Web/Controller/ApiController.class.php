@@ -7,6 +7,8 @@ class ApiController extends CommonController
 
 	//54个中药材名称
 	public function name_medicine(){
+		//允许跨域请求
+    	$this->attend();
 
 		$tpcode='zycmc';
 		$map['col_id'] = $this->getIdByTpcode($tpcode);
