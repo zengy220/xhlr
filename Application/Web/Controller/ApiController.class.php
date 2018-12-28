@@ -20,7 +20,7 @@ class ApiController extends CommonController
 			$data[$k]['name'] = $name_medicine[$k]['name_medicine'];
 			$data[$k]['id'] = $name_medicine[$k]['id'];
 		}
-		var_dump($data);exit;
+		// var_dump($data);exit;
 
 
 		//json
