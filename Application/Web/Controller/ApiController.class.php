@@ -17,10 +17,10 @@ class ApiController extends CommonController
 		//过滤
 		foreach ($name_medicine as $k => $v) {
 			# code...
-			$data[$k]['name'] = $name_medicine[$k]['title'];
+			$data[$k]['name'] = $name_medicine[$k]['name_medicine'];
 			$data[$k]['id'] = $name_medicine[$k]['id'];
 		}
-		// var_dump($data);exit;
+		var_dump($data);exit;
 
 
 		//json
