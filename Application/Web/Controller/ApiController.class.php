@@ -5,6 +5,54 @@ use Think\Controller;
 class ApiController extends CommonController
 {
 
+	//54个中药材名称
+	public function name_medicine(){
+
+		$tpcode='zycmc';
+		$map['col_id'] = $this->getIdByTpcode($tpcode);
+		$map['status'] = 1;
+		$name_medicine=M("content_content")->where($map)->select();
+		//过滤
+		foreach ($name_medicine as $k => $v) {
+			# code...
+			$data[$k]['name'] = $name_medicine[$k]['title'];
+			$data[$k]['id'] = $name_medicine[$k]['id'];
+		}
+		// var_dump($data);exit;
+
+
+		//json
+		$json = json_encode(array(
+            "resultCode"=>200,
+            "message"=>"查询成功！",
+            "data"=>$data
+        ),JSON_UNESCAPED_UNICODE);
+        
+        //转换成字符串JSON
+        print($json);exit;
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//内容获取控制器
     public function page_content()
     {
