@@ -133,7 +133,7 @@ class ApiController extends CommonController
 		$data['medicine_id']=$medicine_id;
 		$data['name_medicine']=$name_medicine;
 		// $data['name_medicine']=$name_medicine;
-		$data['user_id']=$all_data['user_id'];
+		$data['user_id']=$all_data['userId'];
 		$data['production']=$all_data['production'];
 		$data['company']=$all_data['company'];
 		$data['address']=$all_data['address'];
@@ -168,7 +168,7 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
 		//查询列表
-		$where_to['user_id']=I('user_id');
+		$where_to['user_id']=I('userId');
 		$data = M('content')->where($where_to)->select();
 		foreach ($data as $k => $v) {
 			unset($data[$k]['create_time']);
@@ -196,7 +196,7 @@ class ApiController extends CommonController
 		if(empty($data)){
 			$data4 ='empty';
 		}
-		
+
 
 		// var_dump($data);exit;
 		$json = json_encode(array(
