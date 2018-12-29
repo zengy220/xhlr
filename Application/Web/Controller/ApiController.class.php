@@ -39,7 +39,9 @@ class ApiController extends CommonController
 	public function submission(){
 		//将提交的json格式转换并保存
 		$data_json = $_POST;
-		$data_new = decode($data_json);
+		var_dump($data_json);
+		echo "<br>22222222";
+		$data_new = json_decode($data_json);
 		var_dump($data_new);exit;
 		// 对提交的内容过滤判断			
 		// 获取新增药材
