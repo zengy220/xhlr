@@ -174,7 +174,7 @@ class ApiController extends CommonController
     	$this->attend();
 		//查询列表
 		$where_to['user_id']=I('userId');
-		$data = M('content')->where($where_to)->sort('create_time desc')->select();
+		$data = M('content')->where($where_to)->order('create_time desc')->select();
 		foreach ($data as $k => $v) {
 			unset($data[$k]['create_time']);
 			unset($data[$k]['status']);
