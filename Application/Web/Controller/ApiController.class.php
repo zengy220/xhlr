@@ -118,6 +118,7 @@ class ApiController extends CommonController
 		$data['production']=$all_data['production'];
 		$data['company']=$all_data['company'];
 		$data['address']=$all_data['address'];
+		$data['phone_number']=$all_data['phone_number'];
 		$data['name_people']=$all_data['name_people'];
 		//将提交的内容接受并插入数据库中
 
