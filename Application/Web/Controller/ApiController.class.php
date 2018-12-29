@@ -43,7 +43,7 @@ class ApiController extends CommonController
 		$all_data = json_encode($_POST);
 		var_dump($all_data);
 		echo "<br>222222";
-		var_dump($data_json);exit;
+		var_dump($_POST);exit;
 		//将获取的内容插入数据库cs_content
 		// $aa = M('content')->add($data_json);
 		// if(!empty($aa)){
