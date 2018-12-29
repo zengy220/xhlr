@@ -41,7 +41,7 @@ class ApiController extends CommonController
     	$this->attend();
 		//将提交的json格式转换并保存
 		$data_json['medicine_id'] = $_POST;
-		print($data_json);exit;
+		var_dump($data_json);exit;
 		//将获取的内容插入数据库cs_content
 		// $aa = M('content')->add($data_json);
 		// if(!empty($aa)){
