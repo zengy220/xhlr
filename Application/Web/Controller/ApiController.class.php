@@ -97,12 +97,12 @@ class ApiController extends CommonController
 		}
 
 		
-		$medicine_id = I('medicine_id');
-		// $medicine_id = explode(',',$medicine_id);
+
+		$medicine_id = '1,3';
+		// $medicine_id = I('medicine_id');
 		$where2['id']=array('in',$medicine_id);
-		$data_name = M('content')->field('id,name_medicine')->where($where2)->select();
-		var_dump($data_name);exit;
-		
+		$medicine_id = M('content_content')->field('id,name_medicine')->where($where2)->select();
+		// var_dump($data_name);exit;
 		// $medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
