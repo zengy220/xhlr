@@ -99,7 +99,7 @@ class ApiController extends CommonController
 		
 		$medicine_id = I('medicine_id');
 		// $medicine_id = explode(',',$medicine_id);
-		$where2['id']=array('in',$medicine);
+		$where2['id']=array('in',$medicine_id);
 		$data_name = M('content')->field('id,name_medicine')->where($where2)->select();
 		var_dump($data_name);exit;
 		
