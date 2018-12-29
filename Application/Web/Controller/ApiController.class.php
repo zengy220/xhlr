@@ -99,10 +99,18 @@ class ApiController extends CommonController
 		
 
 		// $medicine_id = '1,3';
-		$medicine_id = I('medicine_id');
+		$medicine_id = $all_data['medicine_id'];
 		$where2['id']=array('in',$medicine_id);
-		$medicine_id = M('content_content')->field('id,name_medicine')->where($where2)->select();
-		// var_dump($data_name);exit;
+		$name_medicine = M('content_content')->field('name_medicine')->where($where2)->select();
+
+		foreach ($temp_array as $val2) {
+		    $val2 = join(",",$val2);
+		    $temp_array[] = $val2;
+		}
+
+		$name_medicine = implode(",", $temp_array);
+
+		// var_dump($medicine_id);exit;
 		// $medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
@@ -111,10 +119,19 @@ class ApiController extends CommonController
 		}
 		//将多个中药材id以json格式存入字段中
 		// var_dump($medicine_id);exit;
-		// $json  = {"id":"2","name_medicine":"\u5434\u8331\u8438"},78,null]
-		$medicine_id = json_encode($medicine_id);
+		// $json  = '[{"id":"1","name_medicine":"\u6e58\u83b2"},{"id":"2","name_medicine":"\u5434\u8331\u8438"},85,null]';
+		// $json = json_decode($json);
+		// var_dump($json[]);exit;
+		// foreach ($json as $key => $value) {
+		// 	$json
+		// }
+
+		// sort($medicine_id);
+		// $medicine_id = json_encode($medicine_id);
+
 		//获取参数
 		$data['medicine_id']=$medicine_id;
+		$data['name_medicine']=$name_medicine;
 		// $data['name_medicine']=$name_medicine;
 		$data['user_id']=$all_data['user_id'];
 		$data['production']=$all_data['production'];
