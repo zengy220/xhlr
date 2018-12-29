@@ -40,8 +40,8 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
 		//将提交的json格式转换并保存
-		$data_json['medicine_id'] = $_POST;
-		var_dump($data_json);exit;
+		$all_data = $_POST;
+		// var_dump($data_json);exit;
 		//将获取的内容插入数据库cs_content
 		// $aa = M('content')->add($data_json);
 		// if(!empty($aa)){
@@ -59,10 +59,10 @@ class ApiController extends CommonController
 	 //        //转换成字符串JSON
 	 //        print($json);exit;
 		// }
-		var_dump($data_json);
-		echo "<br>22222222";
-		$data_new = json_decode($data_json);
-		var_dump($data_new);exit;
+		// var_dump($data_json);
+		// echo "<br>22222222";
+		// $data_new = json_decode($data_json);
+		// var_dump($data_new);exit;
 		// 对提交的内容过滤判断			
 		// 获取新增药材
 		$new_medicine =I('new_medicine');
@@ -78,7 +78,7 @@ class ApiController extends CommonController
 				$medicine_id = $old_medicine[$k]['id'];
 			}else{
 				$new = 1;
-				$data_new_medicine['name_medicine'] =$new_medicine  ;exit;
+				$data_new_medicine['name_medicine'] =$new_medicine;
 			}
 		}
 		if($new ==1){
@@ -98,7 +98,12 @@ class ApiController extends CommonController
 
 		
 		$medicine_id = I('medicine_id');
-		$medicine_name = I('name_medicine');
+		// $medicine_id = explode(',',$medicine_id);
+		$where2['id']=array('in',$medicine);
+		$data_name = M('content')->field('id,name_medicine')->where($where2)->select();
+		var_dump($data_name);exit;
+		
+		// $medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
 			array_push($medicine_id,$add_medicine);
@@ -134,8 +139,6 @@ class ApiController extends CommonController
 	        //转换成字符串JSON
 	        print($json);exit;
 		}
-
-
 
 	}
 
