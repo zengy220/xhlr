@@ -102,7 +102,10 @@ class ApiController extends CommonController
 		$medicine_id = $all_data['medicine_id'];
 		$where2['id']=array('in',$medicine_id);
 		$name_medicine = M('content_content')->field('name_medicine')->where($where2)->select();
-
+		if($add_medicine){
+			array_push($name_medicine,$new_medicine);
+			// array_push($name_medicine,$new_medicine);
+		}
 		foreach ($name_medicine as $val2) {
 		    $val2 = join(",",$val2);
 		    $temp_array[] = $val2;
