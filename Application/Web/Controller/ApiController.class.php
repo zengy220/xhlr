@@ -87,8 +87,8 @@ class ApiController extends CommonController
 			array_push($name_medicine,$new_m);
 		}
 		if(empty($name_medicine)){
-			$name_medicine=$new_m;
-			var_dump(I('new_medicine'));exit;
+			$name_medicine['new_medicine']=I('new_medicine');
+			// var_dump(I('new_medicine'));exit;
 			// var_dump($name_medicine);exit;
 		}else{
 
