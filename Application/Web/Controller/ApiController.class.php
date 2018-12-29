@@ -84,7 +84,9 @@ class ApiController extends CommonController
 		$name_medicine = M('content_content')->field('name_medicine')->where($where2)->select();
 		$new_m['name_medicine'] =$new_medicine;
 		if($add_medicine){
-			array_push($name_medicine,$new_m);
+			if($new_m!==0){
+				array_push($name_medicine,$new_m);
+			}
 		}
 		if(empty($name_medicine)){
 			$name_medicine=I('new_medicine');
