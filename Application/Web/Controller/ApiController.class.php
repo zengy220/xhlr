@@ -76,7 +76,7 @@ class ApiController extends CommonController
 
 		
 		$medicine_id = I('medicine_id');
-		$medicine_name = I('name_medicine')
+		$medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
 			array_push($medicine_id,$add_medicine);
