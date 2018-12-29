@@ -141,6 +141,7 @@ class ApiController extends CommonController
 		$data['production']=$all_data['production'];
 		$data['company']=$all_data['company'];
 		$data['address']=$all_data['address'];
+		$data['create_time']=time();
 		$data['phone_number']=$all_data['phone_number'];
 		$data['name_people']=$all_data['name_people'];
 		//将提交的内容接受并插入数据库中
@@ -173,7 +174,7 @@ class ApiController extends CommonController
     	$this->attend();
 		//查询列表
 		$where_to['user_id']=I('userId');
-		$data = M('content')->where($where_to)->select();
+		$data = M('content')->where($where_to)->sort('create_time desc')->select();
 		foreach ($data as $k => $v) {
 			unset($data[$k]['create_time']);
 			unset($data[$k]['status']);
