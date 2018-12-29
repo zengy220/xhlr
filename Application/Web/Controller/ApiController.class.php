@@ -153,7 +153,20 @@ class ApiController extends CommonController
 		foreach ($data as $k2 => $v2) {
   			$data2[$v2['company']][] = $v2;
 		}
-		// var_dump($data2);exit;
+		//整理数组
+			$n=0;
+		foreach ($data2 as $k3 => $v3) {
+			
+			$data3[$n] = $data2[$k3];
+			$n=$n+1;
+		}
+
+		foreach ($data3 as $k4 => $v4) {
+			$data4[$k4]['company']=$data3[$k4][0]['company'];
+			$data4[$k4]['data']=$data3[$k4];
+		}
+
+		// var_dump($data4);exit;
 
 
 
@@ -162,7 +175,7 @@ class ApiController extends CommonController
 		$json = json_encode(array(
 	            "resultCode"=>200,
 	            "message"=>"查询成功！",
-	             "data"=>$data2
+	             "data"=>$data4
        	),JSON_UNESCAPED_UNICODE);
 	    //转换成字符串JSON
 	    print($json);exit;
