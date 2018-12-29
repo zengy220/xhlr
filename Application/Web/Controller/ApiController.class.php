@@ -37,10 +37,11 @@ class ApiController extends CommonController
 
 	//提交接口
 	public function submission(){
-		//将提交的内容接受并插入数据库中
-			// 对提交的内容过滤判断
-				
-					
+		//将提交的json格式转换并保存
+		$data_json = $_POST;
+		$data_new = decode($data_json);
+		var_dump($data_new);exit;
+		// 对提交的内容过滤判断			
 		// 获取新增药材
 		$new_medicine =I('new_medicine');
 		//获取老旧药材库名称
@@ -62,13 +63,56 @@ class ApiController extends CommonController
 			// 如果是新增的中药材名字则放入到另一个表单中cs_content_content
 			$where_new_medicine['col_id']=1;
 			$add_medicine = M('content_content')->where($where_new_medicine)->add($data_new_medicine);
-			if(!empty($add_medicine)){
+			if(empty($add_medicine)){
 				// 信药材名插入数据库成功
-				echo 'success';
-			}else{
-				echo 'fail';
+				$json = json_encode(array(
+		            "resultCode"=>400,
+		            "message"=>"新增中药材失败！"
+       		 	),JSON_UNESCAPED_UNICODE);
+		        //转换成字符串JSON
+		        print($json);exit;
 			}
 		}
+
+		
+		$medicine_id = I('medicine_id');
+		$medicine_name = I('name_medicine')
+		//将体提交的多种中药材加上新增药材
+		if(!empty($add_medicine)){
+			array_push($medicine_id,$add_medicine);
+			array_push($medicine_id,$name_medicine);
+		}
+		//将多个中药材id以json格式存入字段中
+		$medicine_id = json_encode($medicine_id);
+		//获取参数
+		$data['medicine_id']=$medicine_id;
+		$data['name_medicine']=$name_medicine;
+		$data['user_id']=$user_id;
+		$data['production']=$production;
+		$data['company']=$company;
+		$data['address']=$address;
+		$data['name_people']=$name_people;
+		//将提交的内容接受并插入数据库中
+
+			$add = M('contnt')->add($data);
+
+		
+		if(!empty($add)){
+			$json = json_encode(array(
+	            "resultCode"=>200,
+	            "message"=>"插入成功！"
+       		 ),JSON_UNESCAPED_UNICODE);
+	        //转换成字符串JSON
+	        print($json);exit;
+		}else{
+			$json = json_encode(array(
+	            "resultCode"=>400,
+	            "message"=>"提交没成功！"
+       		 ),JSON_UNESCAPED_UNICODE);
+	        //转换成字符串JSON
+	        print($json);exit;
+		}
+
 
 
 	}
