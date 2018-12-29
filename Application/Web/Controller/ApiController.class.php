@@ -240,6 +240,21 @@ class ApiController extends CommonController
     	$data['name_people']=I('name_people');
     	$map['id']=I('id');
     	$data1 = M('content')->where($map)->save($data);
+    	if($data1){
+			$json = json_encode(array(
+	            "resultCode"=>200,
+	            "message"=>"查询成功！"
+	       	),JSON_UNESCAPED_UNICODE);
+		    //转换成字符串JSON
+		    print($json);exit;
+		}else{
+			$json = json_encode(array(
+	            "resultCode"=>400,
+	            "message"=>"查询失败！"
+	       	),JSON_UNESCAPED_UNICODE);
+		    //转换成字符串JSON
+
+		}
 
 	}
 
