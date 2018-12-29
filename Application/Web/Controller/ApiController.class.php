@@ -193,7 +193,9 @@ class ApiController extends CommonController
 
 		// var_dump($data4);exit;
 
-
+		if(empty($data)){
+			$data4 =null;
+		}
 
 
 		// var_dump($data);exit;
