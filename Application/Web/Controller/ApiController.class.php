@@ -86,12 +86,17 @@ class ApiController extends CommonController
 		if($add_medicine){
 			array_push($name_medicine,$new_m);
 		}
-		foreach ($name_medicine as $val2) {
-		    $val2 = join(",",$val2);
-		    $temp_array[] = $val2;
-		}
+		if(empty($name_medicine)){
+			$name_medicine['name_medicine']=$new_m;
+		}else{
+			
+			foreach ($name_medicine as $val2) {
+			    $val2 = join(",",$val2);
+			    $temp_array[] = $val2;
+			}
 
-		$name_medicine = implode(",", $temp_array);
+			$name_medicine = implode(",", $temp_array);
+		}
 
 		// var_dump($name_medicine);exit;
 		// $medicine_name = I('name_medicine');
