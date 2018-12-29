@@ -103,19 +103,19 @@ class ApiController extends CommonController
 		$where2['id']=array('in',$medicine_id);
 		$name_medicine = M('content_content')->field('name_medicine')->where($where2)->select();
 
-		foreach ($temp_array as $val2) {
+		foreach ($name_medicine as $val2) {
 		    $val2 = join(",",$val2);
 		    $temp_array[] = $val2;
 		}
 
 		$name_medicine = implode(",", $temp_array);
 
-		// var_dump($medicine_id);exit;
+		// var_dump($name_medicine);exit;
 		// $medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
 			array_push($medicine_id,$add_medicine);
-			array_push($medicine_id,$name_medicine);
+			// array_push($medicine_id,$name_medicine);
 		}
 		//将多个中药材id以json格式存入字段中
 		// var_dump($medicine_id);exit;
