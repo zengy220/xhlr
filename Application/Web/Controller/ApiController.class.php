@@ -99,12 +99,13 @@ class ApiController extends CommonController
 		
 
 		// $medicine_id = '1,3';
+		// $new_medicine = '多少个字';
 		$medicine_id = $all_data['medicine_id'];
 		$where2['id']=array('in',$medicine_id);
 		$name_medicine = M('content_content')->field('name_medicine')->where($where2)->select();
+		$new_m['name_medicine'] =$new_medicine;
 		if($add_medicine){
-			array_push($name_medicine,$new_medicine);
-			// array_push($name_medicine,$new_medicine);
+			array_push($name_medicine,$new_m);
 		}
 		foreach ($name_medicine as $val2) {
 		    $val2 = join(",",$val2);
