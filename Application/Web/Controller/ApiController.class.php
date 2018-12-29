@@ -168,7 +168,8 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
 		//查询列表
-		$data = M('content')->select();
+		$where_to['user_id']=I('user_id');
+		$data = M('content')->where($where_to)->select();
 		foreach ($data as $k => $v) {
 			unset($data[$k]['create_time']);
 			unset($data[$k]['status']);
