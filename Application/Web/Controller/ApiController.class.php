@@ -194,9 +194,9 @@ class ApiController extends CommonController
 		// var_dump($data4);exit;
 
 		if(empty($data)){
-			$data4 =null;
+			$data4 ='empty';
 		}
-
+		
 
 		// var_dump($data);exit;
 		$json = json_encode(array(
