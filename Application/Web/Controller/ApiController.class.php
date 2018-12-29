@@ -206,6 +206,9 @@ class ApiController extends CommonController
 	}
 
 	public function edit(){
+		//允许跨域请求
+    	$this->attend();
+    	
 		$where['id']=I('id');
 		$data = M('content')->where($where)->find();
 		if($data){
@@ -224,6 +227,10 @@ class ApiController extends CommonController
 		    //转换成字符串JSON
 
 		}
+
+	}
+
+	public function edit_to(){
 
 	}
 
