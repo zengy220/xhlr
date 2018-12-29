@@ -139,7 +139,25 @@ class ApiController extends CommonController
 
 	}
 
-
+	//列表接口
+	public function list_page(){
+		//允许跨域请求
+    	$this->attend();
+		//查询列表
+		$data = M('content')->select();
+		foreach ($data as $k => $v) {
+			unset($data[$k]['create_time']);
+			unset($data[$k]['status']);
+		}
+		// var_dump($data);exit;
+		$json = json_encode(array(
+	            "resultCode"=>200,
+	            "message"=>"查询成功！",
+	             "data"=>$data
+       	),JSON_UNESCAPED_UNICODE);
+	    //转换成字符串JSON
+	    print($json);exit;
+	}
 
 
 
