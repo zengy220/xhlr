@@ -88,6 +88,8 @@ class ApiController extends CommonController
 		}
 		if(empty($name_medicine)){
 			$name_medicine=$new_m;
+			var_dump(I('new_medicine'));exit;
+			// var_dump($name_medicine);exit;
 		}else{
 
 			foreach ($name_medicine as $val2) {
