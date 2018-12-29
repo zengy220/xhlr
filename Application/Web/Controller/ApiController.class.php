@@ -149,11 +149,20 @@ class ApiController extends CommonController
 			unset($data[$k]['create_time']);
 			unset($data[$k]['status']);
 		}
+		//将数据整理成按照公司为单位排列
+		foreach ($data as $k2 => $v2) {
+  			$data2[$v2['company']][] = $v2;
+		}
+		// var_dump($data2);exit;
+
+
+
+
 		// var_dump($data);exit;
 		$json = json_encode(array(
 	            "resultCode"=>200,
 	            "message"=>"查询成功！",
-	             "data"=>$data
+	             "data"=>$data2
        	),JSON_UNESCAPED_UNICODE);
 	    //转换成字符串JSON
 	    print($json);exit;
