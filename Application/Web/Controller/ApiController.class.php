@@ -205,7 +205,27 @@ class ApiController extends CommonController
 	    print($json);exit;
 	}
 
+	public function edit(){
+		$where['id']=I('id');
+		$data = M('content')->where($where)->select();
+		if($data){
+			$json = json_encode(array(
+	            "resultCode"=>200,
+	            "message"=>"查询成功！",
+	             "data"=>$data
+	       	),JSON_UNESCAPED_UNICODE);
+		    //转换成字符串JSON
+		    print($json);exit;
+		}else{
+			$json = json_encode(array(
+	            "resultCode"=>400,
+	            "message"=>"查询失败！"
+	       	),JSON_UNESCAPED_UNICODE);
+		    //转换成字符串JSON
 
+		}
+
+	}
 
 
 
