@@ -113,12 +113,12 @@ class ApiController extends CommonController
 		$medicine_id = json_encode($medicine_id);
 		//获取参数
 		$data['medicine_id']=$medicine_id;
-		$data['name_medicine']=$name_medicine;
-		$data['user_id']=$user_id;
-		$data['production']=$production;
-		$data['company']=$company;
-		$data['address']=$address;
-		$data['name_people']=$name_people;
+		// $data['name_medicine']=$name_medicine;
+		$data['user_id']=I('user_id');
+		$data['production']=I('production');
+		$data['company']=I('company');
+		$data['address']=I('address');
+		$data['name_people']=I('name_people');
 		//将提交的内容接受并插入数据库中
 
 			$add = M('contnt')->add($data);
