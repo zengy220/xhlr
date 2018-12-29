@@ -98,8 +98,8 @@ class ApiController extends CommonController
 
 		
 
-		$medicine_id = '1,3';
-		// $medicine_id = I('medicine_id');
+		// $medicine_id = '1,3';
+		$medicine_id = I('medicine_id');
 		$where2['id']=array('in',$medicine_id);
 		$medicine_id = M('content_content')->field('id,name_medicine')->where($where2)->select();
 		// var_dump($data_name);exit;
@@ -134,7 +134,7 @@ class ApiController extends CommonController
 		}else{
 			$json = json_encode(array(
 	            "resultCode"=>400,
-	            "message"=>"提交没成功！"
+	            "message"=>"提交失败！"
        		 ),JSON_UNESCAPED_UNICODE);
 	        //转换成字符串JSON
 	        print($json);exit;
