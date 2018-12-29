@@ -110,6 +110,8 @@ class ApiController extends CommonController
 			array_push($medicine_id,$name_medicine);
 		}
 		//将多个中药材id以json格式存入字段中
+		// var_dump($medicine_id);exit;
+		// $json  = {"id":"2","name_medicine":"\u5434\u8331\u8438"},78,null]
 		$medicine_id = json_encode($medicine_id);
 		//获取参数
 		$data['medicine_id']=$medicine_id;
