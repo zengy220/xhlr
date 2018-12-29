@@ -41,23 +41,24 @@ class ApiController extends CommonController
     	$this->attend();
 		//将提交的json格式转换并保存
 		$data_json['medicine_id'] = $_POST;
+		print($data_json);exit;
 		//将获取的内容插入数据库cs_content
-		$aa = M('content')->add($data_json);
-		if(!empty($aa)){
-			$json = json_encode(array(
-	            "resultCode"=>200,
-	            "message"=>"获取数据成功！"
-       		),JSON_UNESCAPED_UNICODE);
-	        //转换成字符串JSON
-	        print($json);exit;
-		}else{
-			$json = json_encode(array(
-	            "resultCode"=>400,
-	            "message"=>"获取数据失败！"
-       		),JSON_UNESCAPED_UNICODE);
-	        //转换成字符串JSON
-	        print($json);exit;
-		}
+		// $aa = M('content')->add($data_json);
+		// if(!empty($aa)){
+		// 	$json = json_encode(array(
+	 //            "resultCode"=>200,
+	 //            "message"=>"获取数据成功！"
+  //      		),JSON_UNESCAPED_UNICODE);
+	 //        //转换成字符串JSON
+	 //        print($json);exit;
+		// }else{
+		// 	$json = json_encode(array(
+	 //            "resultCode"=>400,
+	 //            "message"=>"获取数据失败！"
+  //      		),JSON_UNESCAPED_UNICODE);
+	 //        //转换成字符串JSON
+	 //        print($json);exit;
+		// }
 		var_dump($data_json);
 		echo "<br>22222222";
 		$data_new = json_decode($data_json);
