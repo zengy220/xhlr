@@ -207,7 +207,7 @@ class ApiController extends CommonController
 
 	public function edit(){
 		$where['id']=I('id');
-		$data = M('content')->where($where)->select();
+		$data = M('content')->where($where)->find();
 		if($data){
 			$json = json_encode(array(
 	            "resultCode"=>200,
