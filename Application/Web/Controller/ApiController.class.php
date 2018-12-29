@@ -121,8 +121,8 @@ class ApiController extends CommonController
 		$data['name_people']=$all_data['name_people'];
 		//将提交的内容接受并插入数据库中
 
-			$add = M('contnt')->add($data);
-			var_dump(M()->getlastsql());exit;
+			$add = M('content')->add($data);
+			// var_dump(M()->getlastsql());exit;
 
 		
 		if(!empty($add)){
