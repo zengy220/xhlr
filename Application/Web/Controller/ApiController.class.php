@@ -85,7 +85,7 @@ class ApiController extends CommonController
 			// 如果是新增的中药材名字则放入到另一个表单中cs_content_content
 			$where_new_medicine['col_id']=1;
 			$add_medicine = M('content_content')->where($where_new_medicine)->add($data_new_medicine);
-			var_dump($add_medicine);exit;
+			// var_dump($add_medicine);exit;
 			if(empty($add_medicine)){
 				// 信药材名插入数据库成功
 				$json = json_encode(array(
@@ -119,7 +119,8 @@ class ApiController extends CommonController
 		// $medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
-			array_push($medicine_id,$add_medicine);
+			$medicine_id=$medicine_id.','.$add_medicine;
+			// array_push($medicine_id,$add_medicine);
 			// array_push($medicine_id,$name_medicine);
 		}
 		//将多个中药材id以json格式存入字段中
