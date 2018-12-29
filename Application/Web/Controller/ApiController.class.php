@@ -40,7 +40,7 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
 		//将提交的json格式转换并保存
-		$all_data = $_POST;
+		$all_data = json_encode($_POST);
 		// var_dump($data_json);exit;
 		//将获取的内容插入数据库cs_content
 		// $aa = M('content')->add($data_json);
@@ -114,11 +114,11 @@ class ApiController extends CommonController
 		//获取参数
 		$data['medicine_id']=$medicine_id;
 		// $data['name_medicine']=$name_medicine;
-		$data['user_id']=I('user_id');
-		$data['production']=I('production');
-		$data['company']=I('company');
-		$data['address']=I('address');
-		$data['name_people']=I('name_people');
+		$data['user_id']=$all_data['user_id'];
+		$data['production']=$all_data['production'];
+		$data['company']=$all_data['company'];
+		$data['address']=$all_data['address'];
+		$data['name_people']=$all_data['name_people'];
 		//将提交的内容接受并插入数据库中
 
 			$add = M('contnt')->add($data);
