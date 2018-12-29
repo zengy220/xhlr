@@ -41,28 +41,6 @@ class ApiController extends CommonController
     	$this->attend();
 		//将提交的json格式转换并保存
 		$all_data = ($_POST);
-
-		//将获取的内容插入数据库cs_content
-		// $aa = M('content')->add($data_json);
-		// if(!empty($aa)){
-		// 	$json = json_encode(array(
-	 //            "resultCode"=>200,
-	 //            "message"=>"获取数据成功！"
-  //      		),JSON_UNESCAPED_UNICODE);
-	 //        //转换成字符串JSON
-	 //        print($json);exit;
-		// }else{
-		// 	$json = json_encode(array(
-	 //            "resultCode"=>400,
-	 //            "message"=>"获取数据失败！"
-  //      		),JSON_UNESCAPED_UNICODE);
-	 //        //转换成字符串JSON
-	 //        print($json);exit;
-		// }
-		// var_dump($data_json);
-		// echo "<br>22222222";
-		// $data_new = json_decode($data_json);
-		// var_dump($data_new);exit;
 		// 对提交的内容过滤判断			
 		// 获取新增药材
 		$new_medicine =I('new_medicine');
@@ -119,21 +97,9 @@ class ApiController extends CommonController
 		// $medicine_name = I('name_medicine');
 		//将体提交的多种中药材加上新增药材
 		if(!empty($add_medicine)){
-			$medicine_id=$medicine_id.','.$add_medicine;
-			// array_push($medicine_id,$add_medicine);
-			// array_push($medicine_id,$name_medicine);
-		}
-		//将多个中药材id以json格式存入字段中
-		// var_dump($medicine_id);exit;
-		// $json  = '[{"id":"1","name_medicine":"\u6e58\u83b2"},{"id":"2","name_medicine":"\u5434\u8331\u8438"},85,null]';
-		// $json = json_decode($json);
-		// var_dump($json[]);exit;
-		// foreach ($json as $key => $value) {
-		// 	$json
-		// }
 
-		// sort($medicine_id);
-		// $medicine_id = json_encode($medicine_id);
+		}
+
 
 		//获取参数
 		$data['medicine_id']=$medicine_id;
@@ -148,10 +114,7 @@ class ApiController extends CommonController
 		$data['name_people']=$all_data['name_people'];
 		//将提交的内容接受并插入数据库中
 
-			$add = M('content')->add($data);
-			// var_dump(M()->getlastsql());exit;
-
-		
+		$add = M('content')->add($data);
 		if(!empty($add)){
 			$json = json_encode(array(
 	            "resultCode"=>200,
