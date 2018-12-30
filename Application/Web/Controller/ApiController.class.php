@@ -49,14 +49,17 @@ class ApiController extends CommonController
 		$old_medicine = M('content_content')->where($where)->field('id,name_medicine,col_id')->select();
 		// var_dump($old_medicine);exit;
 		// 通过循环对比如果是不一样则新增
-		foreach ($old_medicine as $k => $v) {
-			if($new_medicine==$old_medicine[$k]['name_medicine']){
-				// 代表是重复的 获取对应的id
-				$new = 2;
-				$medicine_id = $old_medicine[$k]['id'];
-			}else{
-				$new = 1;
-				$data_new_medicine['name_medicine'] =$new_medicine;
+		if($new_medicine!=='undefined'){
+
+			foreach ($old_medicine as $k => $v) {
+				if($new_medicine==$old_medicine[$k]['name_medicine']){
+					// 代表是重复的 获取对应的id
+					$new = 2;
+					$medicine_id = $old_medicine[$k]['id'];
+				}else{
+					$new = 1;
+					$data_new_medicine['name_medicine'] =$new_medicine;
+				}
 			}
 		}
 		if($new ==1){
