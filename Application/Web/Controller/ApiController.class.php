@@ -49,7 +49,7 @@ class ApiController extends CommonController
 		$old_medicine = M('content_content')->where($where)->field('id,name_medicine,col_id')->select();
 		// var_dump($old_medicine);exit;
 		// 通过循环对比如果是不一样则新增
-		if($new_medicine!=='undefined'){
+		if($name_medicine=='undefined'){
 
 			foreach ($old_medicine as $k => $v) {
 				if($new_medicine==$old_medicine[$k]['name_medicine']){
