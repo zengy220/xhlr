@@ -10,9 +10,9 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
 
-		$tpcode='zycmc';
-		$map['col_id'] = $this->getIdByTpcode($tpcode);
-		$map['status'] = 1;
+		// $tpcode='zycmc';
+		$map['col_id'] = 1;
+		// $map['status'] = 1;
 		$name_medicine=M("content_content")->where($map)->select();
 		//过滤
 		foreach ($name_medicine as $k => $v) {
