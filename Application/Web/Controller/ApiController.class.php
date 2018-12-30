@@ -83,6 +83,7 @@ class ApiController extends CommonController
 		// $medicine_id = '1,3';
 		// $new_medicine = '多少个字';
 		$medicine_id = $all_data['medicine_id'];
+		var_dump($medicine_id);exit;
 		$where2['id']=array('in',$medicine_id);
 		$name_medicine = M('content_content')->field('name_medicine')->where($where2)->select();
 		$new_m['name_medicine'] =$new_medicine;
