@@ -251,6 +251,9 @@ class ApiController extends CommonController
 
 		$where['id']=I('id');
 		$data = M('content')->where($where)->find();
+		if(!empty($data['production'])){
+			$data['production']=str_replace("亩","",$data['production']);
+		}
 		if(!empty($data['area'])){
 			$data['area']=str_replace("亩","",$data['area']);
 		}
