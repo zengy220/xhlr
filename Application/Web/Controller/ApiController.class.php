@@ -88,7 +88,7 @@ class ApiController extends CommonController
 		$all_data = ($_POST);
 		//如果area有数据那么我带上单位，如果没有数据则不带上单位
 		//过滤area的空格
-		$all_data['area']=myTrim($all_data['area']);
+		$all_data['area']=$this->myTrim($all_data['area']);
 		if(!empty($all_data['area'])){
 			$all_data['area']=$all_data['area'].'亩';
 		}
