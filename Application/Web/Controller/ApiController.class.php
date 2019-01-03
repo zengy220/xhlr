@@ -87,7 +87,8 @@ class ApiController extends CommonController
 		//将提交转换并保存
 		$all_data = ($_POST);
 		//如果area有数据那么我带上单位，如果没有数据则不带上单位
-		var_dump($all_data['area']);exit;
+		//过滤area的空格
+		$all_data['area']=myTrim($all_data['area']);
 		if(!empty($all_data['area'])){
 			$all_data['area']=$all_data['area'].'亩';
 		}
@@ -320,6 +321,12 @@ class ApiController extends CommonController
 		header('Access-Control-Allow-Method:POST,GET');//允许访问的方式
 	}
 
+	//过滤空格
+	function myTrim($str){
+	 $search = array(" ","　","\n","\r","\t");
+	 $replace = array("","","","","");
+	 return str_replace($search, $replace, $str);
+	}
 
 
 
