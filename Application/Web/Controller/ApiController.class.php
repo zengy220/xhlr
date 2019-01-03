@@ -86,6 +86,10 @@ class ApiController extends CommonController
     	$this->attend();
 		//将提交转换并保存
 		$all_data = ($_POST);
+		//如果area有数据那么我带上单位，如果没有数据则不带上单位
+		if(!empty($all_data['area'])){
+			$all_data['area']=$all_data['area'].'亩';
+		}
 		// 对提交的内容过滤判断			
 		// 获取新增药材
 		$new_medicine =I('new_medicine');
