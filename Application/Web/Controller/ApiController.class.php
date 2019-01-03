@@ -242,12 +242,16 @@ class ApiController extends CommonController
 	    print($json);exit;
 	}
 
+	//点击修改显示的时候
 	public function edit(){
 		//允许跨域请求
     	$this->attend();
 
 		$where['id']=I('id');
 		$data = M('content')->where($where)->find();
+		if(!empty($data['area'])){
+			$data['area']=str_replace("亩","",$data['area']);
+		}
 		if($data){
 			$json = json_encode(array(
 	            "resultCode"=>200,
@@ -267,6 +271,7 @@ class ApiController extends CommonController
 
 	}
 
+	//提交修改内容
 	public function edit_to(){
 		//允许跨域请求
     	$this->attend();
@@ -275,7 +280,10 @@ class ApiController extends CommonController
     	$data['phone_number']=I('phone_number');
     	$data['address']=I('address');
     	$data['name_people']=I('name_people');
-    	$data['area']=I('area');
+    	if(!empty(I('area'))){
+	    	$data['area']=I('area').'亩';
+    		
+    	}
     	$map['id']=I('id');
     	$data1 = M('content')->where($map)->save($data);
     	if($data1){
