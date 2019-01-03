@@ -92,6 +92,7 @@ class ApiController extends CommonController
 		if(!empty($all_data['area'])){
 			$all_data['area']=$all_data['area'].'亩';
 		}
+
 		// 对提交的内容过滤判断			
 		// 获取新增药材
 		$new_medicine =I('new_medicine');
@@ -171,6 +172,7 @@ class ApiController extends CommonController
 		// $data['name_medicine']=$name_medicine;
 		$data['user_id']=$all_data['user_id'];
 		$data['production']=$all_data['production'];
+		$data['unit']=$all_data['unit'];
 		$data['company']=$all_data['company'];
 		$data['address']=$all_data['address'];
 		$data['create_time']=time();
@@ -251,9 +253,14 @@ class ApiController extends CommonController
 
 		$where['id']=I('id');
 		$data = M('content')->where($where)->find();
+
 		if(!empty($data['production'])){
-			$data['production']=str_replace("亩","",$data['production']);
+			// $data['production']=str_replace("亩","",$data['production']);
+
 		}
+		//提出株 株/亩 万株/亩
+		
+
 		if(!empty($data['area'])){
 			$data['area']=str_replace("亩","",$data['area']);
 		}
@@ -282,6 +289,7 @@ class ApiController extends CommonController
     	$this->attend();
     	
     	$data['production']=I('production');
+    	$data['unit']=I('unit');
     	$data['phone_number']=I('phone_number');
     	$data['address']=I('address');
     	$data['name_people']=I('name_people');
