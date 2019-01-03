@@ -254,10 +254,12 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
     	if(empty(I('id')){
+
 			echo '<script>alert("请登录");</script>';
 			$url = "/myForm/indx.html";
 			echo "<meta http-equiv='Refresh' content='0;URL=$url'>";exit;
-		}
+		
+    	}
 
 		$where['id']=I('id');
 		$data = M('content')->where($where)->find();
