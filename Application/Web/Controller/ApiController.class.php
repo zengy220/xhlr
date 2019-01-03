@@ -86,13 +86,8 @@ class ApiController extends CommonController
     	$this->attend();
 		//将提交转换并保存
 		$all_data = ($_POST);
-		//如果没有手机号码则弹框"请登录"并且跳转到首页。
-		
-		if(empty($all_data['user_id'])){
-			echo '<script>alert("请登录");history.go(-1)</script>';
-			$url = "/myForm/indx.html";
-			echo "<meta http-equiv='Refresh' content='0;URL=$url'>";exit;
-		}
+		//如果没有手机号码则跳转到首页
+		if($all_data['user_id'])
 		//如果area有数据那么我带上单位，如果没有数据则不带上单位
 		//过滤area的空格
 		$all_data['area']=$this->myTrim($all_data['area']);
@@ -176,6 +171,7 @@ class ApiController extends CommonController
 		$data['medicine_id']=$medicine_id;
 		$data['name_medicine']=$name_medicine;
 		// $data['name_medicine']=$name_medicine;
+		$data['user_id']=$all_data['user_id'];
 		$data['production']=$all_data['production'];
 		$data['company']=$all_data['company'];
 		$data['address']=$all_data['address'];
@@ -210,6 +206,7 @@ class ApiController extends CommonController
 		//允许跨域请求
     	$this->attend();
 		//查询列表
+		$where_to['user_id']=I('user_id');
 		$data = M('content')->where($where_to)->order('create_time desc')->select();
 		foreach ($data as $k => $v) {
 			unset($data[$k]['create_time']);
@@ -253,7 +250,6 @@ class ApiController extends CommonController
 	public function edit(){
 		//允许跨域请求
     	$this->attend();
-
 
 		$where['id']=I('id');
 		$data = M('content')->where($where)->find();
