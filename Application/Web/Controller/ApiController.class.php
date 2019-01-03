@@ -86,8 +86,6 @@ class ApiController extends CommonController
     	$this->attend();
 		//将提交转换并保存
 		$all_data = ($_POST);
-		//如果没有手机号码则跳转到首页
-		if($all_data['user_id'])
 		//如果area有数据那么我带上单位，如果没有数据则不带上单位
 		//过滤area的空格
 		$all_data['area']=$this->myTrim($all_data['area']);
