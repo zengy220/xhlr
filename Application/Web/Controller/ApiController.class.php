@@ -11,7 +11,7 @@ class ApiController extends CommonController
         $phone = I('phone');
         $rand = rand(1000,9999);
         // $url = "http://api.chanyoo.cn/utf8/interface/send_sms.aspx?username=guomengtao1&password=aa77bb&content=验证码：".$rand."【高血压】&receiver=".$phone;
-        $url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend&username=hnxjw&password=874639&mobile=".$phone."&msg=验证码".$rand."&sign=bf944381d72d1f05f5d6fe68f8070645&needstatus=true&needmo=false"
+        $url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend&username=hnxjw&password=874639&mobile=".$phone."&msg=验证码".$rand."&sign=bf944381d72d1f05f5d6fe68f8070645&needstatus=true&needmo=false";
 
 
         $file = file_get_contents($url);
