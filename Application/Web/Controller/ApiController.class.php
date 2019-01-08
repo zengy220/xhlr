@@ -16,9 +16,10 @@ class ApiController extends CommonController
         // var_dump($url);exit;
 
         $file = file_get_contents($url);
-        var_dump($file);exit;
+        // var_dump($file);exit;
+        
 
-//        echo $file;
+       echo $file;exit;
 
 //        转换xml结果
         $xml = simplexml_load_string($file);
