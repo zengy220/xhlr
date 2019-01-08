@@ -15,13 +15,13 @@ class ApiController extends CommonController
 
 
         $file = file_get_contents($url);
+        var_dump($file);exit;
 
 //        echo $file;
 
 //        转换xml结果
         $xml = simplexml_load_string($file);
         $data = json_decode(json_encode($xml),TRUE);
-        var_dump($data);exit;
 
         // echo $data['message'];
 
