@@ -5,6 +5,38 @@ use Think\Controller;
 class ApiController extends CommonController
 {
 
+	 public function sms(){
+//        echo 2;
+
+        $phone = I('phone');
+        $rand = rand(1000,9999);
+        // $url = "http://api.chanyoo.cn/utf8/interface/send_sms.aspx?username=guomengtao1&password=aa77bb&content=验证码：".$rand."【高血压】&receiver=".$phone;
+        $url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend&username=hnxjw&password=874639&mobile=".$phone."&msg=验证码".$rand."&sign=bf944381d72d1f05f5d6fe68f8070645&needstatus=true&needmo=false"
+
+
+        $file = file_get_contents($url);
+
+//        echo $file;
+
+//        转换xml结果
+        $xml = simplexml_load_string($file);
+        $data = json_decode(json_encode($xml),TRUE);
+        var_dump($data);exit;
+
+        // echo $data['message'];
+
+        if ($data['message']="短信发送成功"){
+//            存入数据库
+            $sms = Sms::create([
+                'phone' => $phone,
+                'rand'  => $rand
+
+            ]);
+        }
+
+
+    }
+
 	//54个中药材名称
 	public function name_medicine(){
 		//允许跨域请求
