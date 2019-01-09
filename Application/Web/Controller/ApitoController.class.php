@@ -2,8 +2,8 @@
 
 class ApitoController extends CommonController{
 
-	function index(){
-
+	public function index(){
+			var_dump(211);exit;
 		// header("Content-Type:text/html;charset=utf-8");
 	 
 			//账号
