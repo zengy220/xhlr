@@ -7,7 +7,7 @@ class ApiController extends CommonController
 
 	 public function sms(){
 
-	 	header("Content-Type:text/html;charset=utf-8");
+	 	// header("Content-Type:text/html;charset=utf-8");
  
 		//账号
 		$username= "hnxjw";
