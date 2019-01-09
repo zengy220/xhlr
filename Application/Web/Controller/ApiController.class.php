@@ -21,7 +21,7 @@ class ApiController extends CommonController
 		$mobile = I('phone');
 		 
 		//发送地址，请咨询客服
-		$url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend&username=hntest&password=1234&mobile=13800138000&msg=httptest&sign=520e890c77010ff61b2&needstatus=true&needmo=false";
+		$url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend&username=hnxjw&password=1234&mobile=13800138000&msg=httptest&sign=520e890c77010ff61b2&needstatus=true&needmo=false";
 		 
 		//是否需要状态报告,为true即可
 		$needstatus = "true"; 
