@@ -383,7 +383,7 @@ class ApiController extends CommonController
  
         $file_contents = curl_exec($ch);
         curl_close($ch);
- 
+ 		var_dump(211)exit;
         return $file_contents;
  
     }
