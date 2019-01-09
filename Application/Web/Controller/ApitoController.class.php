@@ -7,7 +7,7 @@ class ApitoController extends CommonController{
 		// header("Content-Type:text/html;charset=utf-8");
 	 
 			//账号
-			$username= "hnxjw";
+			// $username= "hnxjw";
 			 
 			//验证码
 			$rand = rand(1000,9999);
