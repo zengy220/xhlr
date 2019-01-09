@@ -5,54 +5,6 @@ use Think\Controller;
 class ApiController extends CommonController
 {
 
-	 public function sms(){
-
-	 	
-
-
-
-
-
-
-
-        // $phone = I('phone');
-        // $rand = rand(1000,9999);
-        // // $url = "http://api.chanyoo.cn/utf8/interface/send_sms.aspx?username=guomengtao1&password=aa77bb&content=验证码：".$rand."【高血压】&receiver=".$phone;
-        // $url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend&username=hnxjw&password=874639&mobile=".$phone."&msg=验证码是".$rand."&sign=bf944381d72d1f05f5d6fe68f8070645&needstatus=true&needmo=false";
-
-        // // var_dump($url);exit;
-
-        // $file = file_get_contents($url);
-        // // $file = file_get_contents("https://www.baidu.com");
-        // var_dump($file);exit;
-        
-
-
-
-
-
-
-
-
-       // echo $file;exit;
-
-//        转换xml结果
-        $xml = simplexml_load_string($file);
-        $data = json_decode(json_encode($xml),TRUE);
-
-        // echo $data['message'];
-
-        if ($data['message']="短信发送成功"){
-//            存入数据库
-            $sms = Sms::create([
-                'phone' => $phone,
-                'rand'  => $rand
-
-            ]);
-        }
-
-
-    }
 
 	//54个中药材名称
 	public function name_medicine(){
@@ -387,6 +339,55 @@ class ApiController extends CommonController
 	 $replace = array("","","","","");
 	 return str_replace($search, $replace, $str);
 	}
+
+	// 短信下发
+	public function sms(){
+
+		$phone = I('phone');
+		$rand = rand(1000,9999);
+		$username = 'hnxjw';
+		$password = '874639';
+		$mobile = $phone;
+		$msg = '验证码是'.$rand;
+		$sign = 'bf944381d72d1f05f5d6fe68f8070645';
+		$needstatus = 'true';
+		$needmo = 'false';
+		$url = "http://118.178.86.197/cmas/cmasoutapi.do?method=httpSend";
+
+		$post_data=array('msg'=>$msg,'username'=>$username,'password'=>$password,'mobile'=>$phone,'sign'=>$sign,'needstatus'=>$needstatus,'needmo'=>$needmo,'product'=>$product);
+		$timeout =5;
+		$re = $this->post($url,$post_data,$timeout);
+		print_r($re);
+
+	}
+	// PHP发送POST请求
+	public  function post($url, $post_data, $timeout){
+ 
+        $ch = curl_init();
+ 
+        curl_setopt ($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt ($ch, CURLOPT_POST, 1);
+ 
+        if($post_data != ''){
+ 
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+ 
+        }
+ 
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); 
+ 
+        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+ 
+        curl_setopt($ch, CURLOPT_HEADER, false);
+ 
+        $file_contents = curl_exec($ch);
+        curl_close($ch);
+ 
+        return $file_contents;
+ 
+    }
+
 
 
 	//验证码
